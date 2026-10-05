@@ -1,8 +1,8 @@
 {
   "name": "@neurao/api",
+  "private": true,
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "dev": "node --watch --env-file=../../.env src/server.js",
     "start": "node src/server.js"
