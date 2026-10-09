@@ -7,7 +7,7 @@ Stage chez Nutri-Logics, du 28 septembre au 20 novembre 2026. Cinq lignes par jo
 ### Lundi 28 septembre 2026
 
 - **Fait** : début du stage. Prise de connaissance du cahier des charges et du dépôt GitHub. Invitation en tant que collaborateur sur le dépôt, clonage, création de la branche `dev`.
-- **Appris** : un token GitHub *fine-grained* ne donne accès qu'aux dépôts de son propriétaire, jamais au dépôt personnel d'un autre compte, même en tant que collaborateur.
+- **Appris** : un token GitHub _fine-grained_ ne donne accès qu'aux dépôts de son propriétaire, jamais au dépôt personnel d'un autre compte, même en tant que collaborateur.
 - **Bloqué** : le premier `git push` refusé avec une erreur 403. Résolu en générant une clé SSH ed25519 et en passant le dépôt distant en SSH (`git remote set-url`).
 
 ### Mardi 29 septembre 2026

@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ['@neurao/shared']
-};
+  transpilePackages: ['@neurao/shared'],
+}
 
-export default nextConfig;
+export default nextConfig

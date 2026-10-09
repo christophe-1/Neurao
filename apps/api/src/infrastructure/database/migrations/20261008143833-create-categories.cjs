@@ -6,7 +6,7 @@ module.exports = {
       id: { type: Sequelize.INTEGER.UNSIGNED, autoIncrement: true, primaryKey: true },
       name: { type: Sequelize.STRING(100), allowNull: false, unique: true },
       slug: { type: Sequelize.STRING(100), allowNull: false, unique: true },
-      position: { type: Sequelize.SMALLINT.UNSIGNED, allowNull: false, defaultValue: 0},
+      position: { type: Sequelize.SMALLINT.UNSIGNED, allowNull: false, defaultValue: 0 },
       created_at: { type: Sequelize.DATE, allowNull: false },
       updated_at: { type: Sequelize.DATE, allowNull: false },
     })
