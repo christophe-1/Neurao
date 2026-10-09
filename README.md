@@ -11,6 +11,7 @@ Projet réalisé dans le cadre du titre professionnel Développeur Web et Web Mo
 | Site (`apps/web`) | Next.js 16 (App Router), React 19 |
 | API (`apps/api`) | Node.js, Express 5, Sequelize 6 |
 | Base de données | MySQL 8.4, dans Docker |
+| Stockage clé/valeur | Redis 8, dans Docker (panier des visiteurs) |
 | Code partagé (`packages/shared`) | constantes communes au site et à l'API |
 
 ## Structure du dépôt
@@ -22,7 +23,7 @@ neurao/
 │   └── api/              l'API (Express, Sequelize)
 ├── packages/
 │   └── shared/           le code commun au site et à l'API
-├── docker-compose.yml    la base de données
+├── docker-compose.yml    MySQL et Redis
 ├── .env.example          le modèle des variables d'environnement
 └── package.json          déclare les espaces de travail npm
 ```
@@ -33,7 +34,7 @@ Le dépôt est un monorepo : une seule installation à la racine, un seul `node_
 
 - Node.js 20.9 ou plus récent
 - Docker et Docker Compose
-- Le port 3307 libre (MySQL est publié sur 3307 pour ne pas entrer en conflit avec un MySQL local sur 3306)
+- Les ports 3307 et 6379 libres (MySQL est publié sur 3307 pour ne pas entrer en conflit avec un MySQL local sur 3306 ; Redis utilise son port standard, 6379)
 
 ## Installation
 
@@ -58,7 +59,7 @@ Le dépôt est un monorepo : une seule installation à la racine, un seul `node_
    npm install
    ```
 
-4. Démarrer la base de données, puis attendre l'état `healthy` :
+4. Démarrer MySQL et Redis, puis attendre l'état `healthy` pour les deux :
 
    ```bash
    docker compose up -d
@@ -106,10 +107,11 @@ Le dépôt est un monorepo : une seule installation à la racine, un seul `node_
 
 | Commande | Effet |
 |---|---|
-| `docker compose up -d` | démarre la base en arrière-plan |
+| `docker compose up -d` | démarre MySQL et Redis en arrière-plan |
 | `docker compose ps` | affiche l'état des conteneurs |
-| `docker compose down` | arrête la base, les données sont conservées |
-| `docker compose down -v` | arrête la base et efface toutes ses données |
+| `docker compose down` | arrête les conteneurs, les données de MySQL sont conservées |
+| `docker compose down -v` | arrête les conteneurs et efface toutes les données de MySQL |
+| `docker compose exec redis redis-cli ping` | vérifie que Redis répond (`PONG`) |
 
 ## Variables d'environnement
 
@@ -122,3 +124,4 @@ Un seul fichier `.env`, à la racine, lu par l'API et par Docker. Il n'est jamai
 | `DB_HOST`, `DB_PORT` | adresse de la base, vue depuis la machine |
 | `DB_NAME`, `DB_USER`, `DB_PASSWORD` | base et compte utilisés par l'application |
 | `DB_ROOT_PASSWORD` | mot de passe administrateur de MySQL, utilisé par le conteneur |
+| `REDIS_HOST`, `REDIS_PORT` | adresse de Redis, vue depuis la machine |
