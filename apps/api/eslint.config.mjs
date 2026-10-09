@@ -18,8 +18,12 @@ export default defineConfig([
     rules: sharedRules,
   },
   {
-    // Les tailles de colonnes (STRING(100)…) sont des nombres attendus dans une migration
-    files: ['src/infrastructure/database/migrations/**', 'src/infrastructure/database/seeders/**'],
+    // Les tailles de colonnes (STRING(100)…) sont des nombres attendus dans une migration ou un modèle
+    files: [
+      'src/infrastructure/database/migrations/**',
+      'src/infrastructure/database/seeders/**',
+      'src/infrastructure/database/models/**',
+    ],
     rules: { 'no-magic-numbers': 'off' },
   },
   prettier,
