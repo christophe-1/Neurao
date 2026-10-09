@@ -8,7 +8,7 @@ app.use(cors({ origin: process.env.WEB_ORIGIN }))
 app.use(express.json())
 
 app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok' })
+  res.json({ status: 'ok' })
 })
 
 export default app

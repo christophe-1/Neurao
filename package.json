@@ -1,9 +1,19 @@
 {
   "name": "neurao",
   "private": true,
-  "workspaces": ["apps/*", "packages/*"],
-  "scripts": {"dev:web": "npm run dev -w apps/web",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev -w apps/web",
     "dev:api": "npm run dev -w apps/api",
-    "lint": "npm run lint --workspaces --if-present"
+    "lint": "npm run lint --workspaces --if-present",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.9.9"
   }
 }

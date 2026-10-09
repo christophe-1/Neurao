@@ -53,47 +53,47 @@ Accessible uniquement aux comptes internes. Aucun lien n'y mène depuis la bouti
 
 ### Fichiers techniques
 
-| Adresse | Rôle |
-| --- | --- |
-| `/sitemap.xml` | liste des pages publiques pour les moteurs de recherche (§9.3) |
-| `/robots.txt` | indique aux moteurs de recherche ce qu'ils peuvent explorer (le back-office est exclu) |
-| page 404 (`not-found.js`) | adresse inexistante |
+| Adresse                   | Rôle                                                                                   |
+| ------------------------- | -------------------------------------------------------------------------------------- |
+| `/sitemap.xml`            | liste des pages publiques pour les moteurs de recherche (§9.3)                         |
+| `/robots.txt`             | indique aux moteurs de recherche ce qu'ils peuvent explorer (le back-office est exclu) |
+| page 404 (`not-found.js`) | adresse inexistante                                                                    |
 
 ### Tableau des pages
 
-| Page | Adresse | Accès | Besoins couverts |
-| --- | --- | --- | --- |
-| Accueil | `/` | public | B1 |
-| Catégorie | `/categories/[slug]` | public | B2, B5 |
-| Recherche | `/search` | public | B3, B5 |
-| Fiche produit | `/products/[slug]` | public | B4, B5, B7 |
-| Panier | `/cart` | public | B7 à B12 |
-| Tunnel : adresses | `/checkout/addresses` | client | B13, B14 |
-| Tunnel : livraison | `/checkout/shipping` | client | B13, B15 |
-| Tunnel : paiement | `/checkout/payment` | client | B13, B16 |
-| Confirmation | `/checkout/confirmation` | client | B17 |
-| Connexion | `/login` | public | B20, B11 |
-| Inscription | `/register` | public | B19 |
-| Mot de passe oublié | `/forgot-password`, `/reset-password` | public | B21 |
-| Profil | `/account` | client | B22 |
-| Commandes du client | `/account/orders`, `/account/orders/[number]` | client | B18, B23 |
-| Pages légales | `/legal-notice`, `/terms`, `/privacy`, `/cookies` | public | §3.1, §7.3 |
-| Commandes (back-office) | `/admin/orders`, `/admin/orders/[number]` | gestionnaire, administrateur | A6 à A9 |
-| Produits (back-office) | `/admin/products…` | gestionnaire, administrateur | A1, A3 |
-| Catégories (back-office) | `/admin/categories` | gestionnaire, administrateur | A2 |
-| Stock (back-office) | `/admin/stock` | gestionnaire, administrateur | A4, A5 |
-| Clients (back-office) | `/admin/customers…` | gestionnaire, administrateur | A10 |
-| Comptes internes | `/admin/users` | administrateur | A11 |
+| Page                     | Adresse                                           | Accès                        | Besoins couverts |
+| ------------------------ | ------------------------------------------------- | ---------------------------- | ---------------- |
+| Accueil                  | `/`                                               | public                       | B1               |
+| Catégorie                | `/categories/[slug]`                              | public                       | B2, B5           |
+| Recherche                | `/search`                                         | public                       | B3, B5           |
+| Fiche produit            | `/products/[slug]`                                | public                       | B4, B5, B7       |
+| Panier                   | `/cart`                                           | public                       | B7 à B12         |
+| Tunnel : adresses        | `/checkout/addresses`                             | client                       | B13, B14         |
+| Tunnel : livraison       | `/checkout/shipping`                              | client                       | B13, B15         |
+| Tunnel : paiement        | `/checkout/payment`                               | client                       | B13, B16         |
+| Confirmation             | `/checkout/confirmation`                          | client                       | B17              |
+| Connexion                | `/login`                                          | public                       | B20, B11         |
+| Inscription              | `/register`                                       | public                       | B19              |
+| Mot de passe oublié      | `/forgot-password`, `/reset-password`             | public                       | B21              |
+| Profil                   | `/account`                                        | client                       | B22              |
+| Commandes du client      | `/account/orders`, `/account/orders/[number]`     | client                       | B18, B23         |
+| Pages légales            | `/legal-notice`, `/terms`, `/privacy`, `/cookies` | public                       | §3.1, §7.3       |
+| Commandes (back-office)  | `/admin/orders`, `/admin/orders/[number]`         | gestionnaire, administrateur | A6 à A9          |
+| Produits (back-office)   | `/admin/products…`                                | gestionnaire, administrateur | A1, A3           |
+| Catégories (back-office) | `/admin/categories`                               | gestionnaire, administrateur | A2               |
+| Stock (back-office)      | `/admin/stock`                                    | gestionnaire, administrateur | A4, A5           |
+| Clients (back-office)    | `/admin/customers…`                               | gestionnaire, administrateur | A10              |
+| Comptes internes         | `/admin/users`                                    | administrateur               | A11              |
 
 ### Choix d'adresses
 
-| Choix | Raison |
-| --- | --- |
-| `slug` dans les adresses des catégories et des produits (`/products/omega-3-1000`) plutôt que l'`id` | adresses lisibles et stables, exigées pour le référencement (§9.3) |
-| Recherche et pagination dans les paramètres (`?q=…&page=2`) | elles survivent à un rafraîchissement et à un partage de lien (critère de recette du §4.1) |
-| Le tunnel découpé en trois adresses | chaque étape a son adresse : le bouton « retour » du navigateur fonctionne, et l'étape en cours se retrouve après un rafraîchissement |
-| Commandes désignées par leur numéro (`NEU-2026-000123`) côté client | c'est le numéro que le client connaît ; l'`id` technique n'est pas exposé |
-| Adresses en anglais | cohérence avec le code (noms de dossiers, routes d'API) |
+| Choix                                                                                                | Raison                                                                                                                                |
+| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `slug` dans les adresses des catégories et des produits (`/products/omega-3-1000`) plutôt que l'`id` | adresses lisibles et stables, exigées pour le référencement (§9.3)                                                                    |
+| Recherche et pagination dans les paramètres (`?q=…&page=2`)                                          | elles survivent à un rafraîchissement et à un partage de lien (critère de recette du §4.1)                                            |
+| Le tunnel découpé en trois adresses                                                                  | chaque étape a son adresse : le bouton « retour » du navigateur fonctionne, et l'étape en cours se retrouve après un rafraîchissement |
+| Commandes désignées par leur numéro (`NEU-2026-000123`) côté client                                  | c'est le numéro que le client connaît ; l'`id` technique n'est pas exposé                                                             |
+| Adresses en anglais                                                                                  | cohérence avec le code (noms de dossiers, routes d'API)                                                                               |
 
 Ces adresses sont celles des **pages** du site (Next.js, port 3000). Les routes de l'**API** (Express, port 4000, par exemple `GET /api/products`) sont un autre sujet, documenté avec OpenAPI.
 
@@ -127,12 +127,12 @@ Accueil ─► Catégorie ─► Fiche produit ─► « Ajouter au panier » �
 
 Cas particuliers :
 
-| Situation | Comportement attendu |
-| --- | --- |
-| Un produit du panier est devenu indisponible | la ligne est signalée dans le panier (B12) |
+| Situation                                                   | Comportement attendu                                                          |
+| ----------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Un produit du panier est devenu indisponible                | la ligne est signalée dans le panier (B12)                                    |
 | Le stock devient insuffisant entre le panier et le paiement | la commande est refusée avec un message explicite, aucun stock négatif (§6.1) |
-| Deux clients paient le dernier article en même temps | un seul obtient la commande, l'autre reçoit un refus clair (§6.1) |
-| Le visiteur revient le lendemain sur le même navigateur | son panier est toujours là (B10) |
+| Deux clients paient le dernier article en même temps        | un seul obtient la commande, l'autre reçoit un refus clair (§6.1)             |
+| Le visiteur revient le lendemain sur le même navigateur     | son panier est toujours là (B10)                                              |
 
 ### P2 — Un visiteur cherche un produit précis (B3, B4, B5)
 
@@ -206,8 +206,8 @@ Connexion ─► « Mot de passe oublié ? » ─► saisie de l'e-mail
 
 ## 3. Questions ouvertes
 
-| Point | À trancher |
-| --- | --- |
-| Statuts de commande | le cahier des charges en prévoit six (`en_attente_paiement`, `payee`, `en_preparation`, `expediee`, `livree`, `annulee`) ; `ORDER_STATUSES` n'en contient que quatre pour l'instant |
-| Ajustement manuel du stock (A5) | marqué essentiel dans le cahier des charges, placé en lot 3 dans la feuille de route : la page `/admin/stock` dépend de cette décision |
-| Lien de réinitialisation du mot de passe | où stocker le jeton à usage unique et à durée limitée (Redis, avec expiration, est une piste) |
+| Point                                    | À trancher                                                                                                                                                                          |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Statuts de commande                      | le cahier des charges en prévoit six (`en_attente_paiement`, `payee`, `en_preparation`, `expediee`, `livree`, `annulee`) ; `ORDER_STATUSES` n'en contient que quatre pour l'instant |
+| Ajustement manuel du stock (A5)          | marqué essentiel dans le cahier des charges, placé en lot 3 dans la feuille de route : la page `/admin/stock` dépend de cette décision                                              |
+| Lien de réinitialisation du mot de passe | où stocker le jeton à usage unique et à durée limitée (Redis, avec expiration, est une piste)                                                                                       |

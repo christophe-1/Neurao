@@ -1,16 +1,11 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
+import { defineConfig, globalIgnores } from 'eslint/config'
+import nextVitals from 'eslint-config-next/core-web-vitals'
+import prettier from 'eslint-config-prettier/flat'
+import { sharedRules } from '../../eslint.shared.mjs'
 
-const eslintConfig = defineConfig([
+export default defineConfig([
   ...nextVitals,
-  // Override default ignores of eslint-config-next.
-  globalIgnores([
-    // Default ignores of eslint-config-next:
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-  ]),
-]);
-
-export default eslintConfig;
+  { rules: sharedRules },
+  prettier,
+  globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts']),
+])
