@@ -53,3 +53,21 @@ Stage chez Nutri-Logics, du 28 septembre au 20 novembre 2026. Cinq lignes par jo
 - **Fait** : nettoyage de la démo Next : police Outfit, `lang="fr"`, titre et description de la page, page d'accueil Neurao, suppression des fichiers de démo. README du projet avec la procédure d'installation. Mise en place de ce journal.
 - **Appris** : `next/font` crée une variable CSS au moment de l'exécution ; IntelliJ la signale comme introuvable alors que le navigateur l'applique bien. Un texte de site de compléments alimentaires est encadré par le règlement européen sur les allégations de santé.
 - **Bloqué** : rien de bloquant. Les textes de la page d'accueil restent à faire valider par Nutri-Logics.
+
+### Jeudi 8 octobre 2026
+
+- **Fait** : MCD et MLD en version 3 après les décisions de Christophe : un produit appartient à une seule catégorie, clés primaires `id`, clés étrangères `<entité>_id`, prix TTC en centimes et taux de TVA en points de base. 9 tables, exportées dans `docs/conception/` avec le dictionnaire de données. Migrations `create-categories` et `create-products`, jouées puis annulées et rejouées pour vérifier le retour arrière. Veille sur les scripts d'installation npm.
+- **Appris** : une clé étrangère en `RESTRICT` empêche de supprimer une catégorie qui contient encore des produits (erreur 1451) et d'ajouter un produit dans une catégorie qui n'existe pas (erreur 1452). Stocker un taux de 5,5 % sous la forme de l'entier 550 évite les nombres à virgule.
+- **Bloqué** : rien de bloquant. Le lot 1 est limité à la France en euros, ce qui met de côté la question de la Suisse.
+
+### Vendredi 9 octobre 2026
+
+- **Fait** : Redis dans Docker avec son healthcheck. ESLint et Prettier sur tout le monorepo. Modèles Sequelize `Category` et `Product` avec leur association, vérifiés par une requête avec jointure et un test dans une transaction annulée. Arborescence du site et sept parcours utilisateur. Préparation de l'expression des besoins à l'oral. La phase 0 est terminée.
+- **Appris** : une migration décrit la table dans la base, un modèle décrit comment le code la manipule ; les deux doivent rester d'accord. Avec `underscored: true`, Sequelize écrit `categoryId` dans le code et `category_id` dans la base.
+- **Bloqué** : trois écarts relevés dans le cahier des charges, à trancher avec Christophe : six statuts de commande au §6.3 contre quatre dans le code, l'ajustement manuel du stock (A5) marqué essentiel mais prévu au lot 3, et le jeton de réinitialisation du mot de passe absent du modèle de données.
+
+### Dimanche 11 octobre 2026
+
+- **Fait** : conception visuelle dans Figma, dans l'ordre wireframes, maquettes puis prototype. Wireframes des 28 pages en bureau et en mobile, maquettes aux couleurs de neuraO (56 écrans), prototype cliquable de 37 écrans et schéma d'enchaînement. Exports et choix de conception rangés dans `docs/conception/maquettes.md`.
+- **Appris** : vérifier le contraste avant de valider une couleur. Le brun du texte sur le bouton miel ne donnait que 3,2:1 ; un brun plus foncé atteint 6,1:1. Comparer plusieurs variantes côte à côte (polices, pied de page, carte produit mobile) rend le choix plus rapide et plus facile à justifier.
+- **Bloqué** : pas de photo pour les flacons d'Oméga-3 et de D3 ni de couverture définitive pour le livre : visuels provisoires en attendant.
