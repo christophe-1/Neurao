@@ -9,8 +9,8 @@ La conception suit l'ordre wireframe → maquette → prototype. Chaque page du 
 | Page Figma                | Contenu                                                                                                                                      |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1 — Wireframes            | La structure des 28 pages, en niveaux de gris, avec des annotations qui renvoient aux besoins du cahier des charges (B1 à B23, A1 à A11, §6) |
-| 2 — Maquettes             | Les mêmes 28 pages avec l'identité neuraO : 56 écrans                                                                                        |
-| 3 — Prototype             | 37 écrans reliés par 200 liens au clic, en trois flux : parcours d'achat bureau, parcours d'achat mobile, back-office                        |
+| 2 — Maquettes             | Les mêmes 28 pages avec l'identité neuraO : 57 écrans (sur mobile, la connexion a deux écrans : « Se connecter » et « Créer un compte »)     |
+| 3 — Prototype             | 38 écrans reliés par 205 liens au clic, en trois flux : parcours d'achat bureau, parcours d'achat mobile, back-office                        |
 | 4 — Schéma d'enchaînement | Les écrans et les actions qui permettent de passer de l'un à l'autre                                                                         |
 
 Pages couvertes : accueil, catalogue, recherche (avec et sans résultat), fiche produit, le livre, la marque, panier, connexion et inscription, mot de passe oublié, nouveau mot de passe, tunnel de commande en trois étapes, confirmation, profil, commandes du client, détail d'une commande, gabarit des pages légales avec le bandeau de cookies, page 404 ; back-office : connexion, commandes, détail d'une commande, produits, fiche produit, catégories, stock, clients, comptes internes.
@@ -56,4 +56,4 @@ Pages couvertes : accueil, catalogue, recherche (avec et sans résultat), fiche 
 
 ## Exports
 
-Le dossier `maquettes/` contient le schéma d'enchaînement et une sélection d'écrans en bureau et en mobile : accueil, catalogue, fiche produit, panier, paiement, commandes du client, et deux écrans du back-office. Les 56 écrans restent consultables dans le fichier Figma.
+Le dossier `maquettes/` contient le schéma d'enchaînement et une sélection d'écrans en bureau et en mobile : accueil, catalogue, fiche produit, panier, paiement, commandes du client, création de compte sur mobile, et deux écrans du back-office. Tous les écrans restent consultables dans le fichier Figma.
