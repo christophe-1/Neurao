@@ -12,6 +12,8 @@ const baseConfig = {
   password: DB_PASSWORD,
   dialect: 'mysql',
   define: { underscored: true },
+  // Garde la liste des seeders déjà joués (table SequelizeData), comme SequelizeMeta pour les migrations
+  seederStorage: 'sequelize',
 }
 
 module.exports = { development: baseConfig }

@@ -10,6 +10,8 @@
     "db:migrate:undo": "sequelize-cli db:migrate:undo --options-path .sequelizerc.cjs",
     "db:migrate:status": "sequelize-cli db:migrate:status --options-path .sequelizerc.cjs",
     "db:migration:generate": "sequelize-cli migration:generate --options-path .sequelizerc.cjs",
+    "db:seed": "sequelize-cli db:seed:all --options-path .sequelizerc.cjs",
+    "db:seed:undo": "sequelize-cli db:seed:undo:all --options-path .sequelizerc.cjs",
     "lint": "eslint ."
   },
   "keywords": [],
