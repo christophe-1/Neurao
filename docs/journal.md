@@ -71,3 +71,49 @@ Stage chez Nutri-Logics, du 28 septembre au 20 novembre 2026. Cinq lignes par jo
 - **Fait** : conception visuelle dans Figma, dans l'ordre wireframes, maquettes puis prototype. Wireframes des 28 pages en bureau et en mobile, maquettes aux couleurs de neuraO (56 écrans), prototype cliquable de 37 écrans et schéma d'enchaînement. Exports et choix de conception rangés dans `docs/conception/maquettes.md`.
 - **Appris** : vérifier le contraste avant de valider une couleur. Le brun du texte sur le bouton miel ne donnait que 3,2:1 ; un brun plus foncé atteint 6,1:1. Comparer plusieurs variantes côte à côte (polices, pied de page, carte produit mobile) rend le choix plus rapide et plus facile à justifier.
 - **Bloqué** : pas de photo pour les flacons d'Oméga-3 et de D3 ni de couverture définitive pour le livre : visuels provisoires en attendant.
+
+## Semaine 3
+
+### Lundi 12 octobre 2026
+
+- **Fait** : migrations des sept tables restantes du MLD (rôles, utilisateurs, modes de livraison, commandes, lignes de commande, paiements, historique des statuts), jouées, annulées une par une puis rejouées. Seeder des rôles, des modes de livraison et d'un catalogue de 50 produits répartis dans les quatre catégories. Fusion des demandes sur les maquettes et sur les migrations. Début de l'étape des couches de l'API.
+- **Appris** : l'ordre des migrations suit les dépendances, car une clé étrangère ne peut viser qu'une table qui existe déjà. Par défaut, Sequelize ne retient pas les seeders joués : l'option `seederStorage` les enregistre dans une table, ce qui évite d'insérer deux fois les mêmes données.
+- **Bloqué** : trois questions posées à Christophe : qui écrit le seeder, comment stocker l'âge minimal d'un produit (le filtre par âge des maquettes n'a pas de colonne dans le MLD), et où placer la règle de livraison offerte dès 75 €.
+
+### Mardi 13 octobre 2026
+
+- **Fait** : remise à niveau en JavaScript avant d'écrire la couche domaine, avec des exercices dans mon bac à sable : classes, constructeur, objet passé en paramètre, méthodes, conditions et levée d'erreurs.
+- **Appris** : le `!` s'applique avant `===`, donc `!x === true` ne veut pas dire « x n'est pas vrai » ; il faut écrire `x !== true`. Pour passer de « ce qui est valide » à « ce que je refuse », on inverse chaque condition et on échange ET et OU.
+- **Bloqué** : j'ai eu du mal à traduire une règle en condition. Je fais désormais tourner la condition à la main sur un exemple avant d'exécuter.
+
+### Mercredi 14 octobre 2026
+
+- **Fait** : fin des exercices sur la validation et sur `export` / `import`. Préparation de l'entité `Product` du domaine.
+- **Appris** : il faut tester les bornes : mes cas de test étaient tous loin de la limite, et aucun n'a vu que `age <= 0` refusait 0 à tort. Un export par défaut s'importe sans accolades, un export nommé avec ; l'erreur « does not provide an export named 'default' » vient d'un mélange des deux.
+- **Bloqué** : rien de bloquant.
+
+### Jeudi 15 octobre 2026
+
+- **Fait** : exercices sur la copie d'objets avec `...` et sur `try` / `catch`, pour pouvoir tester l'entité `Product` sans répéter ses onze champs à chaque cas.
+- **Appris** : `{ ...modele, stock: 0 }` crée un nouvel objet sans modifier l'original, et la dernière valeur écrite l'emporte. `try` / `catch` attrape une erreur sans arrêter le programme, ce qui permet d'enchaîner plusieurs cas de test.
+- **Bloqué** : je ne me sentais pas prêt à écrire le fichier de test d'un coup ; je l'ai découpé en petits exercices.
+
+### Vendredi 16 octobre 2026
+
+- **Fait** : fin des exercices sur `try` / `catch`, début du fichier de test de l'entité `Product` (un produit modèle, puis un cas par règle). Point d'étape du vendredi : étape 2.1 terminée, étape 2.2 en cours.
+- **Appris** : une erreur de syntaxe empêche tout le fichier de s'exécuter, alors qu'une erreur d'exécution laisse passer ce qui précède. `MODULE_NOT_FOUND` signale un fichier introuvable, souvent une faute dans le nom.
+- **Bloqué** : rien de bloquant.
+
+### Dimanche 18 octobre 2026
+
+- **Fait** : test de l'entité `Product` terminé, onze cas, tous conformes à mes prévisions : prix et stock négatifs, à zéro ou non entiers, `isActive` invalide, et les trois cas de disponibilité.
+- **Appris** : un test n'a de valeur que si chaque vérification a au moins un cas qui la déclenche, et si l'on teste les bornes (un stock à 0 est valide, c'est un produit en rupture). `console.log` sert au déroulé normal, `console.error` aux anomalies.
+- **Bloqué** : IntelliJ signalait `isAvailable()` comme introuvable, car le fichier de test était hors du projet ; l'exécution avec Node a confirmé que la méthode existait.
+
+## Semaine 4
+
+### Lundi 19 octobre 2026
+
+- **Fait** : exercices sur `async` / `await` et `.map()` avec une base simulée, puis écriture du repository Sequelize des produits : `findAll` (produits actifs triés par nom) et `findById` (un produit ou `null`). Testé sur la vraie base : 48 produits actifs, le bon produit retrouvé par son identifiant, `null` pour un identifiant inexistant.
+- **Appris** : une lecture en base renvoie une promesse qu'il faut attendre avec `await`. `.map()` transforme chaque ligne lue en entité `Product`. Avec l'option `raw: true`, Sequelize renvoie `isActive` sous la forme `1` au lieu de `true`, et l'entité le refuse : c'est un exemple concret de l'utilité des vérifications dans la classe.
+- **Bloqué** : j'ai eu du mal à assembler la fonction qui transforme une liste ; suivre les données étape par étape, en affichant chaque résultat, m'a débloqué.
