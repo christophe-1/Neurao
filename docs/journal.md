@@ -117,3 +117,27 @@ Stage chez Nutri-Logics, du 28 septembre au 20 novembre 2026. Cinq lignes par jo
 - **Fait** : exercices sur `async` / `await` et `.map()` avec une base simulée, puis écriture du repository Sequelize des produits : `findAll` (produits actifs triés par nom) et `findById` (un produit ou `null`). Testé sur la vraie base : 48 produits actifs, le bon produit retrouvé par son identifiant, `null` pour un identifiant inexistant.
 - **Appris** : une lecture en base renvoie une promesse qu'il faut attendre avec `await`. `.map()` transforme chaque ligne lue en entité `Product`. Avec l'option `raw: true`, Sequelize renvoie `isActive` sous la forme `1` au lieu de `true`, et l'entité le refuse : c'est un exemple concret de l'utilité des vérifications dans la classe.
 - **Bloqué** : j'ai eu du mal à assembler la fonction qui transforme une liste ; suivre les données étape par étape, en affichant chaque résultat, m'a débloqué.
+
+### Mardi 20 octobre 2026
+
+- **Fait** : nettoyage et commit de l'entité `Product` et de son repository. Exercice sur l'injection de dépendance : deux dépôts différents (une base simulée et un dépôt de test écrit à la main) donnés tour à tour à la même fonction.
+- **Appris** : un cas d'usage ne fabrique pas son repository, il le reçoit en paramètre. La même fonction marche alors avec la vraie base comme avec un faux dépôt de test, sans changer une ligne.
+- **Bloqué** : je confondais renvoyer l'objet déjà obtenu et en fabriquer un nouveau, et j'oubliais de ranger le résultat d'un appel dans une variable avant de l'afficher.
+
+### Mercredi 21 octobre 2026
+
+- **Fait** : écriture des cas d'usage `getProduct` (un produit désactivé est invisible pour le visiteur) et `listProducts`.
+- **Appris** : avec `||`, JavaScript s'arrête dès qu'une condition est vraie ; tester `null` en premier évite de lire une propriété sur `null`. La règle « produit désactivé » porte sur `isActive`, pas sur la disponibilité : un produit en rupture doit rester visible.
+- **Bloqué** : la notion de cas d'usage restait floue ; la décrire comme une action d'un utilisateur (« Camille ouvre la fiche de D3 ») l'a rendue concrète. Dans IntelliJ, la table n'apparaissait pas : il fallait rafraîchir la connexion et chercher `products`, au pluriel.
+
+### Jeudi 22 octobre 2026
+
+- **Fait** : tests des deux cas d'usage sur la vraie base, tous conformes à mes prévisions. Plan de l'architecture de l'API et du trajet d'une requête, comparé avec l'organisation habituelle de Christophe (handlers, séparation commandes et requêtes) ; il a validé l'architecture en couches. Exercices sur les paramètres et les callbacks.
+- **Appris** : un paramètre est une case vide remplie au moment de l'appel ; ce qui varie ou ce qu'on veut pouvoir remplacer devient un paramètre. Un callback est une fonction donnée à quelqu'un d'autre, qui l'appelle et remplit ses paramètres. `lancerBombe(bombeAEau())` donne le résultat de la fonction au lieu de la fonction elle-même.
+- **Bloqué** : le callback restait flou ; écrire mon propre exemple, puis suivre la valeur contenue dans le paramètre, m'a débloqué.
+
+### Vendredi 23 octobre 2026
+
+- **Fait** : contrôleur des produits (`ProductController`) qui reçoit le repository dans son constructeur, avec la méthode `getOne` : 200 et le produit en JSON, ou 404. Testé de bout en bout avec un faux Express : contrôleur, cas d'usage, repository et base. Point d'étape du vendredi.
+- **Appris** : tout ce qui vient de l'adresse est du texte (`'58'`), on le convertit en nombre dès l'entrée. Pour utiliser la méthode d'un objet, il faut l'objet, pas sa classe : seul le fichier qui fabrique le repository a besoin de l'importer.
+- **Bloqué** : un fichier mal nommé (`ProductControllers.js`) a provoqué une erreur `MODULE_NOT_FOUND`.
