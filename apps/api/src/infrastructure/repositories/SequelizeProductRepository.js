@@ -10,12 +10,17 @@ export default class SequelizeProductRepository {
     }
     const categoryWhere = filters.category ? { slug: filters.category } : undefined
 
-    const lignes = await ProductModel.findAll({
+    const { count, rows } = await ProductModel.findAndCountAll({
       where,
       include: [{ model: CategoryModel, attributes: [], where: categoryWhere }],
       order: [['name', 'ASC']],
+      limit: filters.limit,
+      offset: filters.offset,
     })
-    return lignes.map((ligne) => new Product(ligne))
+    return {
+      products: rows.map((ligne) => new Product(ligne)),
+      total: count,
+    }
   }
 
   async findById(id) {

@@ -20,6 +20,7 @@ export default class ProductController {
     const filters = {
       category: req.query.category,
       search: req.query.search,
+      page: Number(req.query.page) || 1,
     }
     const products = await listProducts(this.productRepository, filters)
     return res.status(HTTP_STATUS.OK).json(products)
