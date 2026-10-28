@@ -1,10 +1,18 @@
+import { Op } from 'sequelize'
 import Product from '../../domain/Product.js'
-import { Product as ProductModel } from '../database/models/index.js'
+import { Category as CategoryModel, Product as ProductModel } from '../database/models/index.js'
 
 export default class SequelizeProductRepository {
-  async findAll() {
+  async findAll(filters) {
+    const where = { isActive: true }
+    if (filters.search) {
+      where.name = { [Op.like]: `%${filters.search}%` }
+    }
+    const categoryWhere = filters.category ? { slug: filters.category } : undefined
+
     const lignes = await ProductModel.findAll({
-      where: { isActive: true },
+      where,
+      include: [{ model: CategoryModel, attributes: [], where: categoryWhere }],
       order: [['name', 'ASC']],
     })
     return lignes.map((ligne) => new Product(ligne))

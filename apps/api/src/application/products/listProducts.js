@@ -1,3 +1,3 @@
-export default async function listProducts(productRepository) {
-  return await productRepository.findAll()
+export default async function listProducts(productRepository, filters) {
+  return await productRepository.findAll(filters)
 }
