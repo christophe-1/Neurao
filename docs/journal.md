@@ -141,3 +141,9 @@ Stage chez Nutri-Logics, du 28 septembre au 20 novembre 2026. Cinq lignes par jo
 - **Fait** : contrôleur des produits (`ProductController`) qui reçoit le repository dans son constructeur, avec la méthode `getOne` : 200 et le produit en JSON, ou 404. Testé de bout en bout avec un faux Express : contrôleur, cas d'usage, repository et base. Point d'étape du vendredi.
 - **Appris** : tout ce qui vient de l'adresse est du texte (`'58'`), on le convertit en nombre dès l'entrée. Pour utiliser la méthode d'un objet, il faut l'objet, pas sa classe : seul le fichier qui fabrique le repository a besoin de l'importer.
 - **Bloqué** : un fichier mal nommé (`ProductControllers.js`) a provoqué une erreur `MODULE_NOT_FOUND`.
+
+### Dimanche 25 octobre 2026
+
+- **Fait** : méthode `getAll` du contrôleur, constantes des codes HTTP, routeur des produits (point d'assemblage qui crée le repository et le contrôleur) et branchement dans `app.js`. L'API répond dans le navigateur : `GET /api/products` et `GET /api/products/:id`. Demande de fusion de l'étape 2.2 ouverte.
+- **Appris** : j'ai traduit moi-même la requête de Sequelize en SQL (`WHERE is_active = true ORDER BY name ASC`) pour vérifier le résultat dans la base. Le lint vérifie la forme du code, pas le sens : une faute (`OK: 20`) n'est apparue qu'en relançant les tests ; `git commit --amend` corrige le dernier commit tant qu'il n'est pas poussé. `/api/products/abc` renvoie 500 au lieu de 400 : l'identifiant doit être validé à l'entrée.
+- **Bloqué** : un import écrit avec une majuscule (`ProductRoutes.js`) marchait sur macOS mais aurait cassé sous Linux ; le chemin doit reprendre le nom du fichier lettre pour lettre.

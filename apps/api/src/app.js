@@ -2,6 +2,7 @@
 import cors from 'cors'
 import express from 'express'
 import productRoutes from './http/routes/productRoutes.js'
+import categoryRoutes from './http/routes/categoryRoutes.js'
 
 const app = express()
 
@@ -13,5 +14,6 @@ app.get('/api/health', (req, res) => {
 })
 
 app.use('/api/products', productRoutes)
+app.use('/api/categories', categoryRoutes)
 
 export default app
