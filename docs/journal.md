@@ -147,3 +147,29 @@ Stage chez Nutri-Logics, du 28 septembre au 20 novembre 2026. Cinq lignes par jo
 - **Fait** : méthode `getAll` du contrôleur, constantes des codes HTTP, routeur des produits (point d'assemblage qui crée le repository et le contrôleur) et branchement dans `app.js`. L'API répond dans le navigateur : `GET /api/products` et `GET /api/products/:id`. Demande de fusion de l'étape 2.2 ouverte.
 - **Appris** : j'ai traduit moi-même la requête de Sequelize en SQL (`WHERE is_active = true ORDER BY name ASC`) pour vérifier le résultat dans la base. Le lint vérifie la forme du code, pas le sens : une faute (`OK: 20`) n'est apparue qu'en relançant les tests ; `git commit --amend` corrige le dernier commit tant qu'il n'est pas poussé. `/api/products/abc` renvoie 500 au lieu de 400 : l'identifiant doit être validé à l'entrée.
 - **Bloqué** : un import écrit avec une majuscule (`ProductRoutes.js`) marchait sur macOS mais aurait cassé sous Linux ; le chemin doit reprendre le nom du fichier lettre pour lettre.
+
+## Semaine 5
+
+### Lundi 26 octobre 2026
+
+- **Fait** : réponse de Christophe sur le retard pris : on garde le périmètre et on continue. Chaîne des catégories écrite sur le modèle de celle des produits : entité `Category`, repository (tri par position puis par nom), cas d'usage `listCategories`, contrôleur, routeur et branchement dans `app.js`. `GET /api/categories` renvoie les quatre catégories.
+- **Appris** : l'entité décide aussi de ce qui sort de l'API : seuls ses quatre champs apparaissent dans la réponse, pas les dates de la table. Une route mal écrite (`/api/category` au lieu de `/api/categories`) donne « Cannot GET » : Express ne trouve aucune route, ce n'est pas une erreur du code.
+- **Bloqué** : Prettier reformatait mon code à moitié tapé quand IntelliJ enregistrait en changeant de fenêtre ; il faut finir une instruction avant de quitter l'éditeur.
+
+### Mardi 27 octobre 2026
+
+- **Fait** : exercices sur les paramètres d'adresse (`req.query`) et sur `.filter()`, pour préparer les filtres du catalogue.
+- **Appris** : `req.params` contient ce qui fait partie du chemin (`/products/58`), `req.query` les options ajoutées après le `?` (`?category=gommes`). La fonction donnée à `.filter()` doit renvoyer vrai ou faux, donc contenir une comparaison.
+- **Bloqué** : j'ai passé une fonction avec ses parenthèses, ce qui donnait son résultat au lieu de la fonction, et j'ai confondu `req.params` et `req.query`.
+
+### Mercredi 28 octobre 2026
+
+- **Fait** : filtres de `GET /api/products` par catégorie (`?category=`) et par recherche dans le nom (`?search=`), puis pagination à 12 produits par page (`?page=`) avec le total et le nombre de pages dans la réponse. Requête écrite d'abord en SQL dans IntelliJ (jointure et `LIKE`), puis avec Sequelize. Décision de Christophe : toute l'application reste en Sequelize, et trois requêtes seront réécrites en SQL dans la documentation pour les comparer au SQL généré. Demande de fusion de l'étape 2.2 fusionnée, celle de l'étape 2.3 ouverte.
+- **Appris** : on filtre dans la base, pas en JavaScript : la base ne renvoie que les lignes utiles. Sequelize construit une requête paramétrée, ce qui protège de l'injection SQL. Pour la page `n`, on saute `(n - 1) × 12` produits (`OFFSET`) et on en prend 12 (`LIMIT`) ; `findAndCountAll` renvoie aussi le total, et `Math.ceil` arrondit le nombre de pages au-dessus pour ne pas perdre la dernière page incomplète. La taille de page est une règle de l'application : elle est dans le cas d'usage, pas dans le repository.
+- **Bloqué** : j'avais oublié les `%` dans `LIKE`, qui cherchait alors le nom exact. `?page=-1` provoque encore une erreur 500 : la validation des paramètres est prévue avec Zod à l'étape 2.4.
+
+### Jeudi 29 octobre 2026
+
+- **Fait** : validation des paramètres du catalogue avec Zod (étape 2.4). Schémas `productIdSchema` et `productListQuerySchema` rangés dans le paquet partagé, pour que le site puisse réutiliser les mêmes règles, et utilisés par le contrôleur des produits avec `safeParse`. `/api/products/abc`, `/api/products/0`, `?page=-1` et `?page=abc` renvoient maintenant 400 au lieu d'une erreur 500 ; les huit cas testés correspondent à mes prévisions.
+- **Appris** : Zod vérifie et convertit en même temps (`z.coerce.number()` transforme le texte de l'adresse en nombre). `safeParse` rend un résultat au lieu de lever une erreur, ce qui permet de choisir la réponse. Après le contrôle, on n'utilise plus que les données validées, jamais `req.query` : sinon une règle ajoutée au schéma serait ignorée. `z.object` retire les paramètres non prévus sans refuser la demande. 400 signifie que la demande est mal formée (Zod le sait seul), 404 qu'elle est correcte mais que la base ne contient rien.
+- **Bloqué** : la demande de fusion de l'étape 2.3 avait été fusionnée avant mon dernier envoi ; j'ai recopié le commit du journal sur la nouvelle branche avec `git cherry-pick`.
