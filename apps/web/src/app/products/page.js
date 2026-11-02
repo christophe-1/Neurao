@@ -27,14 +27,16 @@ export default function ProductsPage() {
   return (
     <main>
       <h1>La gamme</h1>
-      {data.products.map((product) => (
-        <ProductCard
-          key={product.id}
-          id={product.id}
-          name={product.name}
-          unitPriceCents={product.unitPriceCents}
-        />
-      ))}
+      <div className="product-grid">
+        {data.products.map((product) => (
+          <ProductCard
+            key={product.id}
+            id={product.id}
+            name={product.name}
+            unitPriceCents={product.unitPriceCents}
+          />
+        ))}
+      </div>
       <p>
         Page {data.page} sur {data.totalPages}
       </p>
