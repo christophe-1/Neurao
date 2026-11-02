@@ -28,7 +28,12 @@ export default function ProductsPage() {
     <main>
       <h1>La gamme</h1>
       {data.products.map((product) => (
-        <ProductCard key={product.id} name={product.name} unitPriceCents={product.unitPriceCents} />
+        <ProductCard
+          key={product.id}
+          id={product.id}
+          name={product.name}
+          unitPriceCents={product.unitPriceCents}
+        />
       ))}
       <p>
         Page {data.page} sur {data.totalPages}
