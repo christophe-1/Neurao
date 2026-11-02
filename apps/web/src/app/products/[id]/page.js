@@ -27,8 +27,8 @@ export default function ProductPage() {
   return (
     <main>
       <h1>{data.name}</h1>
-      <p>{formatPrice(data.unitPriceCents)}</p>
-      <p>{data.description}</p>
+      <p className="product-price">{formatPrice(data.unitPriceCents)}</p>
+      <p className="product-description">{data.description}</p>
     </main>
   )
 }

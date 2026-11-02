@@ -93,6 +93,50 @@ h1 {
   font-size: 1.25rem;
 }
 
+.product-card a {
+  display: block;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: var(--color-surface);
+  font: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+.product-price {
+  margin-bottom: 24px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.product-description {
+  max-width: 65ch;
+  line-height: 1.6;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .product-card {
     transition: none;

@@ -27,6 +27,7 @@ export default function ProductsPage() {
   return (
     <main>
       <h1>La gamme</h1>
+
       <div className="product-grid">
         {data.products.map((product) => (
           <ProductCard
@@ -37,15 +38,18 @@ export default function ProductsPage() {
           />
         ))}
       </div>
-      <p>
-        Page {data.page} sur {data.totalPages}
-      </p>
-      <button type="button" onClick={() => setPage(page - 1)} disabled={page === 1}>
-        Précédent
-      </button>
-      <button type="button" onClick={() => setPage(page + 1)} disabled={page === data.totalPages}>
-        Suivant
-      </button>
+
+      <nav className="pagination" aria-label="Pagination">
+        <button type="button" onClick={() => setPage(page - 1)} disabled={page === 1}>
+          Précédent
+        </button>
+        <p>
+          Page {data.page} sur {data.totalPages}
+        </p>
+        <button type="button" onClick={() => setPage(page + 1)} disabled={page === data.totalPages}>
+          Suivant
+        </button>
+      </nav>
     </main>
   )
 }
