@@ -1,13 +1,15 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
 import ProductCard from '@/components/ProductCard'
 import { fetchProducts } from '@/lib/api'
 
 export default function ProductsPage() {
+  const [page, setPage] = useState(1)
   const { data, isPending, isError } = useQuery({
-    queryKey: ['products', 1],
-    queryFn: () => fetchProducts(1),
+    queryKey: ['products', page],
+    queryFn: () => fetchProducts(page),
   })
 
   if (isPending) {
@@ -28,6 +30,15 @@ export default function ProductsPage() {
       {data.products.map((product) => (
         <ProductCard key={product.id} name={product.name} unitPriceCents={product.unitPriceCents} />
       ))}
+      <p>
+        Page {data.page} sur {data.totalPages}
+      </p>
+      <button type="button" onClick={() => setPage(page - 1)} disabled={page === 1}>
+        Précédent
+      </button>
+      <button type="button" onClick={() => setPage(page + 1)} disabled={page === data.totalPages}>
+        Suivant
+      </button>
     </main>
   )
 }
