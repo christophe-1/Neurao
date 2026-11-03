@@ -1,0 +1,17 @@
+CATEGORY: category_id, 1_name, 2_slug, position, created_at, updated_at
+SHIPPING_METHOD: shipping_method_id, name, price_cents, is_active, created_at, updated_at
+SHIP_WITH, 0N SHIPPING_METHOD, 11 ORDER
+PAY, 0N ORDER, 11 PAYMENT
+PAYMENT: payment_id, provider_reference, amount_cents, provider_status, received_at, created_at, updated_at
+PLACE, 0N USER, 11 ORDER
+USER: user_id, 1_email, password_hash, first_name, last_name, created_at, updated_at
+ASSIGN, 0N ROLE, 11 USER
+
+BELONG, 0N CATEGORY, 11 PRODUCT
+PRODUCT: product_id, 1_reference, name, 2_slug, description, unit_price_cents, vat_rate_bp, image, stock, is_active, created_at, updated_at
+ORDER_ITEM, 1N ORDER, 0N PRODUCT: quantity, unit_price_cents, vat_rate_bp, product_name
+ORDER: order_id, 1_number, status, shipping_cost_cents, total_cents, shipping_name, shipping_address, shipping_postal_code, shipping_city, shipping_country_code, billing_name, billing_address, billing_postal_code, billing_city, billing_country_code, created_at, updated_at
+TRACK, 1N ORDER, 11 ORDER_STATUS_HISTORY
+ORDER_STATUS_HISTORY: history_id, status, created_at
+PERFORM, 0N USER, 01 ORDER_STATUS_HISTORY
+ROLE: role_id, 1_code, label, created_at, updated_at

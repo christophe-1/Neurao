@@ -1,20 +1,19 @@
 {
-  "name": "e-commerce-vskn",
-  "version": "0.1.0",
+  "name": "neurao",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
-  },
-  "dependencies": {
-    "next": "16.3.7",
-    "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "dev:web": "npm run dev -w apps/web",
+    "dev:api": "npm run dev -w apps/api",
+    "lint": "npm run lint --workspaces --if-present",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
-    "eslint": "^9",
-    "eslint-config-next": "16.3.7"
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.9.9"
   }
 }
