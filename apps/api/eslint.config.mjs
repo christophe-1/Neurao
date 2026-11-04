@@ -26,5 +26,10 @@ export default defineConfig([
     ],
     rules: { 'no-magic-numbers': 'off' },
   },
+  {
+    // Un test est fait de valeurs d'exemple : les nommer n'apporterait rien
+    files: ['test/**'],
+    rules: { 'no-magic-numbers': 'off' },
+  },
   prettier,
 ])
