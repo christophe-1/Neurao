@@ -2,7 +2,8 @@ const path = require('node:path')
 
 require('dotenv').config({ path: path.resolve(__dirname, '../../../../../.env') })
 
-const { DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD } = process.env
+const { DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD, DB_APP_USER, DB_APP_PASSWORD } =
+  process.env
 
 const baseConfig = {
   host: DB_HOST,
@@ -16,4 +17,9 @@ const baseConfig = {
   seederStorage: 'sequelize',
 }
 
-module.exports = { development: baseConfig }
+const appConfig = {
+  ...baseConfig,
+  username: DB_APP_USER,
+  password: DB_APP_PASSWORD,
+}
+module.exports = { development: baseConfig, app: appConfig }
