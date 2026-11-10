@@ -84,7 +84,7 @@ Stage chez Nutri-Logics, du 28 septembre au 20 novembre 2026. Cinq lignes par jo
 
 - **Fait** : remise à niveau en JavaScript avant d'écrire la couche domaine, avec des exercices dans mon bac à sable : classes, constructeur, objet passé en paramètre, méthodes, conditions et levée d'erreurs.
 - **Appris** : le `!` s'applique avant `===`, donc `!x === true` ne veut pas dire « x n'est pas vrai » ; il faut écrire `x !== true`. Pour passer de « ce qui est valide » à « ce que je refuse », on inverse chaque condition et on échange ET et OU.
-- **Bloqué** : j'ai eu du mal à traduire une règle en condition. Je fais désormais tourner la condition à la main sur un exemple avant d'exécuter.
+- **Bloqué** : traduire une règle métier en condition. Méthode retenue : faire tourner la condition à la main sur un exemple avant de l'exécuter.
 
 ### Mercredi 14 octobre 2026
 
@@ -96,7 +96,7 @@ Stage chez Nutri-Logics, du 28 septembre au 20 novembre 2026. Cinq lignes par jo
 
 - **Fait** : exercices sur la copie d'objets avec `...` et sur `try` / `catch`, pour pouvoir tester l'entité `Product` sans répéter ses onze champs à chaque cas.
 - **Appris** : `{ ...modele, stock: 0 }` crée un nouvel objet sans modifier l'original, et la dernière valeur écrite l'emporte. `try` / `catch` attrape une erreur sans arrêter le programme, ce qui permet d'enchaîner plusieurs cas de test.
-- **Bloqué** : je ne me sentais pas prêt à écrire le fichier de test d'un coup ; je l'ai découpé en petits exercices.
+- **Bloqué** : un fichier de test trop dense pour être écrit d'un seul coup ; découpé en petits exercices.
 
 ### Vendredi 16 octobre 2026
 
@@ -116,25 +116,25 @@ Stage chez Nutri-Logics, du 28 septembre au 20 novembre 2026. Cinq lignes par jo
 
 - **Fait** : exercices sur `async` / `await` et `.map()` avec une base simulée, puis écriture du repository Sequelize des produits : `findAll` (produits actifs triés par nom) et `findById` (un produit ou `null`). Testé sur la vraie base : 48 produits actifs, le bon produit retrouvé par son identifiant, `null` pour un identifiant inexistant.
 - **Appris** : une lecture en base renvoie une promesse qu'il faut attendre avec `await`. `.map()` transforme chaque ligne lue en entité `Product`. Avec l'option `raw: true`, Sequelize renvoie `isActive` sous la forme `1` au lieu de `true`, et l'entité le refuse : c'est un exemple concret de l'utilité des vérifications dans la classe.
-- **Bloqué** : j'ai eu du mal à assembler la fonction qui transforme une liste ; suivre les données étape par étape, en affichant chaque résultat, m'a débloqué.
+- **Bloqué** : l'assemblage d'une fonction qui transforme une liste ; résolu en suivant les données étape par étape et en affichant chaque résultat.
 
 ### Mardi 20 octobre 2026
 
 - **Fait** : nettoyage et commit de l'entité `Product` et de son repository. Exercice sur l'injection de dépendance : deux dépôts différents (une base simulée et un dépôt de test écrit à la main) donnés tour à tour à la même fonction.
 - **Appris** : un cas d'usage ne fabrique pas son repository, il le reçoit en paramètre. La même fonction marche alors avec la vraie base comme avec un faux dépôt de test, sans changer une ligne.
-- **Bloqué** : je confondais renvoyer l'objet déjà obtenu et en fabriquer un nouveau, et j'oubliais de ranger le résultat d'un appel dans une variable avant de l'afficher.
+- **Bloqué** : deux points délicats : renvoyer l'objet déjà obtenu plutôt que d'en fabriquer un nouveau, et ranger le résultat d'un appel dans une variable avant de l'afficher.
 
 ### Mercredi 21 octobre 2026
 
 - **Fait** : écriture des cas d'usage `getProduct` (un produit désactivé est invisible pour le visiteur) et `listProducts`.
 - **Appris** : avec `||`, JavaScript s'arrête dès qu'une condition est vraie ; tester `null` en premier évite de lire une propriété sur `null`. La règle « produit désactivé » porte sur `isActive`, pas sur la disponibilité : un produit en rupture doit rester visible.
-- **Bloqué** : la notion de cas d'usage restait floue ; la décrire comme une action d'un utilisateur (« Camille ouvre la fiche de D3 ») l'a rendue concrète. Dans IntelliJ, la table n'apparaissait pas : il fallait rafraîchir la connexion et chercher `products`, au pluriel.
+- **Bloqué** : la notion de cas d'usage, rendue concrète en la décrivant comme l'action d'un utilisateur (« Camille ouvre la fiche de D3 »). Dans IntelliJ, la table n'apparaissait pas : il fallait rafraîchir la connexion et chercher `products`, au pluriel.
 
 ### Jeudi 22 octobre 2026
 
 - **Fait** : tests des deux cas d'usage sur la vraie base, tous conformes à mes prévisions. Plan de l'architecture de l'API et du trajet d'une requête, comparé avec l'organisation habituelle de Christophe (handlers, séparation commandes et requêtes) ; il a validé l'architecture en couches. Exercices sur les paramètres et les callbacks.
 - **Appris** : un paramètre est une case vide remplie au moment de l'appel ; ce qui varie ou ce qu'on veut pouvoir remplacer devient un paramètre. Un callback est une fonction donnée à quelqu'un d'autre, qui l'appelle et remplit ses paramètres. `lancerBombe(bombeAEau())` donne le résultat de la fonction au lieu de la fonction elle-même.
-- **Bloqué** : le callback restait flou ; écrire mon propre exemple, puis suivre la valeur contenue dans le paramètre, m'a débloqué.
+- **Bloqué** : le callback, rendu clair en écrivant mon propre exemple puis en suivant la valeur contenue dans le paramètre.
 
 ### Vendredi 23 octobre 2026
 
@@ -160,7 +160,7 @@ Stage chez Nutri-Logics, du 28 septembre au 20 novembre 2026. Cinq lignes par jo
 
 - **Fait** : exercices sur les paramètres d'adresse (`req.query`) et sur `.filter()`, pour préparer les filtres du catalogue.
 - **Appris** : `req.params` contient ce qui fait partie du chemin (`/products/58`), `req.query` les options ajoutées après le `?` (`?category=gommes`). La fonction donnée à `.filter()` doit renvoyer vrai ou faux, donc contenir une comparaison.
-- **Bloqué** : j'ai passé une fonction avec ses parenthèses, ce qui donnait son résultat au lieu de la fonction, et j'ai confondu `req.params` et `req.query`.
+- **Bloqué** : une fonction passée avec ses parenthèses donne son résultat au lieu de la fonction elle-même ; et `req.params` (un morceau de l'adresse) se distingue de `req.query` (ce qui suit le `?`).
 
 ### Mercredi 28 octobre 2026
 
@@ -178,7 +178,7 @@ Stage chez Nutri-Logics, du 28 septembre au 20 novembre 2026. Cinq lignes par jo
 
 - **Fait** : étape 2.5, la recherche paginée réécrite en SQL à la main dans la console d'IntelliJ : pour deux cas (gélules et « focus » en page 1, gommes en page 2), la requête de la page et celle du total, toutes conformes aux réponses de l'API. Démonstration d'une injection SQL, puis version paramétrée avec `PREPARE` / `EXECUTE`. Lecture du SQL généré par Sequelize dans les logs et comparaison avec mes requêtes, rassemblées dans `docs/sql/recherche-paginee.md`. Point d'étape du vendredi : étapes 2.1 à 2.4 fusionnées.
 - **Appris** : `findAndCountAll` envoie deux requêtes indépendantes, le total (`COUNT`, sans `LIMIT`) et la page (`LIMIT` et `OFFSET`) ; une requête avec `LIMIT 12` ne peut jamais renvoyer plus de 12 lignes. En collant une valeur dans le SQL, `x' OR 1=1 …` faisait compter 50 produits au lieu de 3, désactivés compris ; avec une requête préparée, la même valeur ne trouve rien. Sequelize n'utilise pas de `?` avec MySQL : il échappe les valeurs (`\'`) avant de les écrire dans la requête, ce qui protège aussi. `LIMIT 0, 12` est l'écriture courte de `LIMIT 12 OFFSET 0`.
-- **Bloqué** : j'ai prévu 15 lignes pour la page 2 des gommes au lieu de 3, en confondant encore la page et le total.
+- **Bloqué** : le calcul de la page 2 des gommes donne 3 lignes et non 15 : le numéro de page et le total sont deux nombres différents.
 
 ### Samedi 31 octobre 2026
 
@@ -190,7 +190,7 @@ Stage chez Nutri-Logics, du 28 septembre au 20 novembre 2026. Cinq lignes par jo
 
 - **Fait** : liste de cartes générée avec `.map`, puis page branchée sur l'API avec TanStack Query : provider dans le layout, variable `NEXT_PUBLIC_API_URL`, fonction `fetchProducts` et `useQuery`. La page affiche les 12 vrais produits. Gestion des trois états avec des gardes : chargement, erreur (testée en arrêtant l'API) et liste vide (testée avec la page 99).
 - **Appris** : chaque élément d'une liste a besoin d'une `key` unique et stable, l'id ; sans elle, React affiche un avertissement. TanStack Query met les réponses en cache sous une clé (`queryKey`) et réessaie trois fois en cas d'échec, avec un délai qui double (7 secondes au total). Il est placé dans le layout pour que le cache survive aux changements de page. `fetch` ne lève pas d'erreur sur un 400 ou un 404 : il faut tester `response.ok`. Une variable n'arrive dans le navigateur que si son nom commence par `NEXT_PUBLIC_`. Le premier `return` rencontré gagne : la garde de chargement remplace toute la page, titre compris.
-- **Bloqué** : l'étape TanStack Query m'a submergé, avec trop de notions nouvelles dans un seul fichier. Je l'ai reprise avec des images (l'enveloppe et son tampon pour le statut HTTP, la fonction donnée au lieu de son résultat) ; l'étape suivante, les trois états, s'est faite sans difficulté.
+- **Bloqué** : l'étape TanStack Query concentrait beaucoup de notions nouvelles dans un seul fichier. Reprise avec des images (l'enveloppe et son tampon pour le statut HTTP, la fonction donnée au lieu de son résultat) ; l'étape suivante, les trois états, s'est faite sans difficulté.
 
 ## Semaine 6
 
@@ -204,25 +204,25 @@ Stage chez Nutri-Logics, du 28 septembre au 20 novembre 2026. Cinq lignes par jo
 
 - **Fait** : étape 2.7, les premiers tests automatisés de l'API. Installation de Vitest et d'un script `npm test`, avec la règle `no-magic-numbers` désactivée dans `test/`. Cinq tests unitaires de l'entité `Product` : création valide, prix négatif refusé, disponibilité selon le stock et selon l'état actif. Deux tests d'intégration avec Supertest sur la route des produits : liste paginée (200) et identifiant invalide (400). Les 7 tests passent, demande de fusion ouverte. Lecture du REAC et du référentiel d'évaluation, puis du mail de la plateforme : le dossier professionnel, le dossier projet et le diaporama sont à rendre le vendredi 20 novembre. Christophe a proposé un nouveau plan jusqu'au gel du code le vendredi 13 : sessions dans Redis, commande simplifiée en transaction, back-office minimal.
 - **Appris** : un test passe quand la réalité correspond à la prévision écrite dans `expect`, même si cette prévision est une erreur (`toThrow`). On donne à `expect` une fonction (`() => new Product(…)`) pour qu'il attrape lui-même l'erreur. Chaque cas ne change qu'un champ du produit modèle, sinon une autre règle peut faire passer le test pour une mauvaise raison. En supprimant exprès la vérification du prix, le test est passé au rouge : c'est le rôle d'un test de non-régression. Supertest teste `app.js` sans lancer le serveur, c'est pour cela que `app.js` et `server.js` sont séparés. `/api/products/abc` s'arrête au contrôleur (Zod) et ne touche jamais MySQL : avec la base arrêtée, ce test reste vert et celui de la liste reçoit une 500. La base est en snake_case et le code en camelCase ; `underscored: true` fait la traduction dans le modèle Sequelize. Le REAC exige des tests unitaires et de sécurité ; les tests d'intégration n'y sont qu'une connaissance. Le dossier professionnel demande un à trois exemples par activité-type, pas un par compétence.
-- **Bloqué** : j'ai prévu qu'un test « refuse un prix négatif » échouerait, alors qu'il passe puisque l'erreur est attendue. Dans mon cinquième test, `is_active: 0` laissait le produit actif, car l'entité ne connaît que `isActive`.
+- **Bloqué** : un test « refuse un prix négatif » passe justement parce que l'erreur est attendue (`toThrow`) : c'est la prévision écrite dans `expect` qui compte. Dans le cinquième test, `is_active: 0` laissait le produit actif, car l'entité ne connaît que `isActive`.
 
 ### Mercredi 4 novembre 2026
 
 - **Fait** : fin du bloc 1 du plan avec le gestionnaire d'erreurs central de l'API. Middleware `errorHandler` enregistré en dernier dans `app.js`, statut `INTERNAL_SERVER_ERROR` ajouté dans `httpStatus.js`. Vérification avec MySQL arrêté : le navigateur reçoit seulement `{"message":"Erreur interne du serveur"}`, alors que le terminal de l'API affiche l'erreur complète (`SequelizeConnectionRefusedError`). Test unitaire du middleware avec de faux objets `res` et `next` (`vi.fn()`) : 14 tests verts, demande de fusion validée par Christophe. Début du dossier professionnel : répartition de six exemples sur quatre projets (Spotify, Kanban, Librairie, Neurao), puis rédaction des exemples Librairie (CP5 et CP6) et Spotify (CP3). Correction de mon MCD de la Librairie sur Lucidchart et export du MCD, du MLD et du MPD.
 - **Appris** : depuis Express 5, une erreur levée dans un contrôleur `async` est transmise toute seule au middleware d'erreur, reconnu à ses quatre paramètres. Il n'y a donc plus besoin d'un `try/catch` recopié dans chaque contrôleur. Le `throw` du domaine lance l'erreur, le middleware la reçoit : le client a une réponse neutre, le développeur garde le détail, et la pile d'erreur ne fuit plus. Je garde un `try/catch` là où il faut réagir sur place, comme le `rollback` d'une transaction. `vi.fn()` est une fonction espion qui note ses appels ; `mockReturnThis()` permet d'enchaîner `res.status(500).json(...)`. En MERISE, le MCD ne contient pas de clés étrangères : elles naissent au passage vers le MLD. Une association n:n devient une table de liaison, et le prix recopié dans une ligne de commande garde l'historique. Un `LEFT JOIN` garde le livre même sans auteur, et le `?` d'une requête préparée envoie la valeur séparément du SQL.
-- **Bloqué** : l'API ne démarrait plus à cause d'un `/` oublié dans un chemin d'import (`'.http/…'`), et `app.use(errorHandler)` était placé après `export default app`. La connexion SSH à GitHub a échoué toute la matinée à cause d'une panne de GitHub ; j'ai mis `dev` à jour avec `git merge --ff-only origin/dev`. Le test de `errorHandler` m'a perdu au début, avec trop de notions d'un coup.
+- **Bloqué** : l'API ne démarrait plus à cause d'un `/` oublié dans un chemin d'import (`'.http/…'`), et `app.use(errorHandler)` était placé après `export default app`. La connexion SSH à GitHub a échoué toute la matinée à cause d'une panne de GitHub ; j'ai mis `dev` à jour avec `git merge --ff-only origin/dev`. Le test de `errorHandler` réunissait plusieurs notions nouvelles (`vi.fn()`, `mockReturnThis()`), à prendre une à une.
 
 ### Jeudi 5 novembre 2026
 
 - **Fait** : début du bloc 2 du plan, les droits MySQL (journée écourtée par des rendez-vous personnels). Branche `feat/mysql-users`. Variables `DB_APP_USER` et `DB_APP_PASSWORD` ajoutées dans `.env` (mot de passe généré avec `openssl rand -hex 24`) et dans `.env.example`. Fichier `infra/mysql/create-app-user.sql` qui crée l'utilisateur `neurao_app` de l'API avec seulement `SELECT`, `INSERT` et `UPDATE` sur la base `neurao`, exécuté en root dans une console d'IntelliJ. `SHOW GRANTS` confirme ces trois droits et aucun autre.
 - **Appris** : principe du moindre privilège : chaque compte n'a que les droits dont il a besoin. Root administre le serveur et lui seul peut créer des comptes et donner des droits ; `neurao` crée les tables avec les migrations ; `neurao_app` sert à l'API. Je n'ai pas donné `DELETE` : les produits seront désactivés plutôt que supprimés (suppression logique). Aucun droit ne protège à 100 % (`UPDATE` peut encore abîmer des données), d'où la défense en profondeur : validation, droits limités, puis sauvegarde. Le fichier est relançable grâce à `IF NOT EXISTS`, `ALTER USER` et `REVOKE` avant le `GRANT`. Le vrai mot de passe n'est jamais écrit dans un fichier commité.
-- **Bloqué** : une première version en script shell mélangeait shell, Docker et SQL et je n'arrivais pas à la relire. Je l'ai remplacée par un fichier SQL simple, que je peux défendre devant le jury.
+- **Bloqué** : une première version en script shell mélangeait shell, Docker et SQL et restait difficile à relire. Remplacée par un fichier SQL simple, que je peux défendre devant le jury.
 
 ### Vendredi 6 novembre 2026
 
 - **Fait** : fin du bloc 2 du plan. Compte `neurao_app` créé en root dans une console IntelliJ, `SHOW GRANTS` confirme `SELECT`, `INSERT` et `UPDATE`. L'API se connecte désormais avec ce compte : les 14 tests restent verts. Test de sécurité dans une console « Neurao (app) » : le `SELECT` renvoie les 50 produits, `DROP` et `DELETE` sont refusés (ERROR 1142). Sauvegarde de la base avec `mysqldump` exécuté dans le conteneur (34 Ko), dossier `backups/` ignoré par Git, puis restauration testée : le nom d'un produit modifié exprès est revenu à « Coffret découverte gommes ». Documentation des trois comptes, de la sauvegarde et de la restauration dans `docs/sql/`. Demande de fusion #22 ouverte et fusionnée par Christophe. Début du bloc 3 sur la branche `feat/auth` : choix des sessions dans Redis, puis schéma Zod de l'inscription (`registerSchema`) dans le paquet partagé.
 - **Appris** : quand l'API a perdu le catalogue, le navigateur n'a reçu qu'un message neutre et le terminal a donné la vraie cause, `Access denied` : la connexion échouait avant même le `SELECT`. Le `mysqldump` du conteneur a la même version que le serveur (8.4) et la même commande servira en production. Une restauration ramène la base à l'heure de la sauvegarde : tout ce qui a été écrit après est perdu. Une session, c'est un identifiant aléatoire dans un cookie `httpOnly` et l'identité rangée dans Redis avec une durée de vie ; la déconnexion supprime la clé, ce qui coupe l'accès tout de suite. Le REAC demande le « choix du mode d'authentification », pas un JWT. L'id de l'utilisateur vient toujours de la session, jamais de l'URL (faille IDOR). Le NIST (SP 800-63B) demande 15 caractères minimum quand le mot de passe est le seul facteur et d'en accepter au moins 64 ; bcrypt ne lit que 72 octets. Avec Zod, un champ est obligatoire par défaut. Un 400 signale une requête mal formée, un 409 un conflit avec l'état de la base.
-- **Bloqué** : le mot de passe de `neurao_app` avait été mal copié dans la console ; corrigé avec un seul `ALTER USER`. Le matin, je ne voyais plus la logique d'ensemble (qui fait quoi entre root, `neurao` et `neurao_app`) ; un tableau des trois comptes m'a débloqué.
+- **Bloqué** : le mot de passe de `neurao_app` avait été mal copié dans la console ; corrigé avec un seul `ALTER USER`. Le rôle de chacun des trois comptes (root, `neurao`, `neurao_app`) a été clarifié par un tableau.
 
 ### Samedi 7 novembre 2026
 
@@ -234,10 +234,10 @@ Stage chez Nutri-Logics, du 28 septembre au 20 novembre 2026. Cinq lignes par jo
 
 - **Fait** : modèle Sequelize `User` et association entre `Role` et `User` dans `models/index.js`. Test d'intégrité dans la console « Neurao (app) » : un `INSERT` avec un `role_id` inexistant est refusé (ERROR 1452) et aucune ligne n'est créée ; capture faite pour le dossier. Repository `SequelizeUserRepository` avec deux méthodes, `findByEmail` et `create`, vérifié sur la vraie base : `null` pour un email inconnu, création avec le rôle `customer`, relecture, et doublon refusé par MySQL (`SequelizeUniqueConstraintError`). En fin de soirée, branche `feat/auth` poussée sur GitHub et état des lieux du projet avant le point de contrôle du mardi 10.
 - **Appris** : l'erreur 1452 vient de la clé étrangère (intégrité des données), la 1142 des droits, et la 1451 de la suppression d'une ligne encore référencée. La clé étrangère se trouve du côté « plusieurs » (`users.role_id`) ; en MERISE, ROLE (0,N) — posséder — (1,1) USER. `include` fait une jointure : `ligne.Role.code` donne `customer` au lieu du numéro. On cherche le rôle par son code, jamais par un numéro écrit en dur : chez moi `customer` vaut 6, et un numéro en dur provoquerait une erreur 1452, ou pire, donnerait un autre rôle sur une autre base. Le repository ne décide rien : il rapporte, le cas d'usage décide (le 409), et la contrainte `UNIQUE` est vérifiée par MySQL lui-même, ce qui protège aussi de deux inscriptions simultanées.
-- **Bloqué** : au moment des associations, j'ai perdu le fil : j'ai inversé les côtés 1 et N et oublié le rôle du repository des produits. Je l'ai repris avec le schéma du trajet d'une requête (route, contrôleur, cas d'usage, repository, domaine). Ma première capture contenait d'anciennes requêtes ; je l'ai refaite proprement.
+- **Bloqué** : les associations Sequelize : le sens de la relation 1-N (la clé étrangère est du côté « plusieurs ») et la place du repository dans le trajet d'une requête, clarifiés avec le schéma du trajet (route, contrôleur, cas d'usage, repository, domaine). Première capture refaite, car elle contenait d'anciennes requêtes.
 
 ### Lundi 9 novembre 2026
 
 - **Fait** : installation de bcrypt (version 6), puis cas d'usage `registerUser` : il vérifie que l'email est libre, hache le mot de passe avec un coût de 10 et crée l'utilisateur avec le rôle `customer`. Vérifié sur la vraie base : une empreinte de 60 caractères qui commence par `$2b$10$`, et `null` au deuxième appel avec le même email. Statuts `CREATED` (201) et `CONFLICT` (409) ajoutés dans `httpStatus.js`. Contrôleur `AuthController` (400, 409 ou 201 avec `toPublic()`), route `POST /register` et branchement de `/api/auth` dans `app.js`. Quatre vraies requêtes : mot de passe trop court → 400, inscription valide avec `"role": "admin"` dans le corps → 201 avec le rôle `customer`, même email → 409, `GET` sur la même adresse → 404. Premier schéma du trajet de l'inscription en diagramme de séquence.
 - **Appris** : bcrypt range un sel aléatoire dans l'empreinte ; à la connexion, `bcrypt.compare` relit ce sel et refait le calcul. Hacher n'est pas chiffrer : on ne peut pas revenir au mot de passe, même avec une clé. bcrypt est lent exprès, donc on vérifie l'email avant de hacher. Le rôle ne vient jamais de la requête : Zod jette le champ `role` et le cas d'usage écrit `customer` lui-même, ce qui bloque l'attribution de masse (mass assignment). Les données d'un formulaire arrivent dans `req.body`, envoyées en `POST`, jamais dans l'adresse ; `express.json()` doit être placé avant les routes. Une route, c'est une méthode et une adresse. Le préfixe `/api/auth` est écrit une seule fois dans `app.js`. Le message « email déjà utilisé » permet l'énumération de comptes : à la connexion, le message devra rester vague.
-- **Bloqué** : je me suis perdu dans le trajet de l'inscription, qui fait deux allers-retours vers la base ; le diagramme de séquence m'a débloqué. Je n'ai pas compris pourquoi la route doit écrire `(req, res) => controller.register(req, res)` (le `this` perdu) : je le reprendrai pendant la préparation de l'oral. J'ai répondu « injection SQL » au lieu d'attribution de masse, et j'ai dû chercher deux réponses sur les routes.
+- **Bloqué** : le trajet de l'inscription fait deux allers-retours vers la base ; un diagramme de séquence l'a rendu lisible. Point à approfondir pendant la préparation de l'oral : pourquoi la route passe par une fonction fléchée (`(req, res) => controller.register(req, res)`) pour garder `this`.
