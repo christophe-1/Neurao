@@ -1,3 +1,4 @@
+import { UniqueConstraintError } from 'sequelize'
 import User from '../../domain/User.js'
 import { Role as RoleModel, User as UserModel } from '../database/models/index.js'
 
@@ -23,13 +24,20 @@ export default class SequelizeUserRepository {
 
   async create({ email, passwordHash, firstName, lastName, role }) {
     const roleLigne = await RoleModel.findOne({ where: { code: role } })
-    const ligne = await UserModel.create({
-      email,
-      passwordHash,
-      firstName,
-      lastName,
-      roleId: roleLigne.id,
-    })
-    return new User({ id: ligne.id, email, passwordHash, firstName, lastName, role })
+    try {
+      const ligne = await UserModel.create({
+        email,
+        passwordHash,
+        firstName,
+        lastName,
+        roleId: roleLigne.id,
+      })
+      return new User({ id: ligne.id, email, passwordHash, firstName, lastName, role })
+    } catch (error) {
+      if (error instanceof UniqueConstraintError) {
+        return null
+      }
+      throw error
+    }
   }
 }
