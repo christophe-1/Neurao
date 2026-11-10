@@ -6,11 +6,11 @@ Toutes les commandes se lancent depuis la racine du projet, avec les conteneurs 
 
 Chaque compte n'a que les droits dont il a besoin (principe du moindre privilège).
 
-| Compte | Utilisé par | Quand | Droits |
-|---|---|---|---|
-| `root` | l'administrateur, à la main | rarement | tous : créer des comptes, donner des droits, sauvegarder, restaurer |
-| `neurao` | `npm run db:migrate` et `db:seed` | quand le schéma change | tous, mais seulement sur la base `neurao` (créé par Docker au premier démarrage) |
-| `neurao_app` | l'API | en permanence | `SELECT`, `INSERT`, `UPDATE` sur `neurao.*`, rien d'autre |
+| Compte       | Utilisé par                       | Quand                  | Droits                                                                           |
+| ------------ | --------------------------------- | ---------------------- | -------------------------------------------------------------------------------- |
+| `root`       | l'administrateur, à la main       | rarement               | tous : créer des comptes, donner des droits, sauvegarder, restaurer              |
+| `neurao`     | `npm run db:migrate` et `db:seed` | quand le schéma change | tous, mais seulement sur la base `neurao` (créé par Docker au premier démarrage) |
+| `neurao_app` | l'API                             | en permanence          | `SELECT`, `INSERT`, `UPDATE` sur `neurao.*`, rien d'autre                        |
 
 L'API est la seule partie exposée à Internet : c'est elle qui a le compte le plus limité. Elle n'a pas `DELETE`, car un produit est désactivé (`is_active = false`) au lieu d'être supprimé. Dans `apps/api/src/infrastructure/database/config.cjs`, la configuration `development` (compte `neurao`) sert aux migrations, et la configuration `app` (compte `neurao_app`) sert à l'API.
 
@@ -32,11 +32,11 @@ Le script est relançable : `IF NOT EXISTS` évite l'erreur si le compte existe,
 
 Connecté en `neurao_app`, comme le serait un attaquant qui aurait volé le compte de l'API :
 
-| Requête | Résultat attendu | Résultat obtenu |
-|---|---|---|
-| `SELECT COUNT(*) FROM products;` | autorisé | 50 |
-| `DROP TABLE test_securite;` | refusé | `ERROR 1142: DROP command denied to user 'neurao_app'` |
-| `DELETE FROM products WHERE 1 = 0;` | refusé | `ERROR 1142: DELETE command denied to user 'neurao_app'` |
+| Requête                             | Résultat attendu | Résultat obtenu                                          |
+| ----------------------------------- | ---------------- | -------------------------------------------------------- |
+| `SELECT COUNT(*) FROM products;`    | autorisé         | 50                                                       |
+| `DROP TABLE test_securite;`         | refusé           | `ERROR 1142: DROP command denied to user 'neurao_app'`   |
+| `DELETE FROM products WHERE 1 = 0;` | refusé           | `ERROR 1142: DELETE command denied to user 'neurao_app'` |
 
 Le test vise une table qui n'existe pas et une condition toujours fausse : si la protection avait échoué, aucune donnée n'aurait été perdue.
 
