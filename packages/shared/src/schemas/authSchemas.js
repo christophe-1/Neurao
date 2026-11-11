@@ -11,3 +11,8 @@ export const registerSchema = z.object({
   firstName: z.string().trim().min(1).max(NAME_MAX_LENGTH),
   lastName: z.string().trim().min(1).max(NAME_MAX_LENGTH),
 })
+
+export const loginSchema = z.object({
+  email: z.email().max(EMAIL_MAX_LENGTH),
+  password: z.string().min(1).max(PASSWORD_MAX_LENGTH),
+})
