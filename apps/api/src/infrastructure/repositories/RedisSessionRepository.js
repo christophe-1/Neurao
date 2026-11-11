@@ -12,4 +12,12 @@ export default class RedisSessionRepository {
     })
     return sessionId
   }
+
+  async findById(sessionId) {
+    const value = await redisClient.get(`session:${sessionId}`)
+    if (value === null) {
+      return null
+    }
+    return JSON.parse(value)
+  }
 }
