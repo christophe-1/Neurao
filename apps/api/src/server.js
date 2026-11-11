@@ -6,7 +6,10 @@ const PORT = process.env.PORT ?? 4000
 
 await redisClient.connect()
 
-app.listen(PORT, () => {
+app.listen(PORT, (error) => {
+  if (error) {
+    throw error
+  }
   // Remplacé par un journal applicatif plus tard (règle ESLint no-console)
   console.log(`API démarrée sur le port ${PORT}`)
 })
