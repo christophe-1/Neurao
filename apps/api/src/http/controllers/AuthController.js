@@ -47,4 +47,14 @@ export default class AuthController {
     })
     return res.status(HTTP_STATUS.OK).json(session.user.toPublic())
   }
+
+  /**
+   * Returns the session of the logged-in user, set by the requireAuth middleware.
+   *
+   * @param {import('express').Request} req Request whose `session` holds `{ userId, role }`.
+   * @param {import('express').Response} res Response sent back with status 200.
+   */
+  me(req, res) {
+    return res.status(HTTP_STATUS.OK).json(req.session)
+  }
 }
