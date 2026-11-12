@@ -20,4 +20,8 @@ export default class RedisSessionRepository {
     }
     return JSON.parse(value)
   }
+
+  async delete(sessionId) {
+    await redisClient.del(`session:${sessionId}`)
+  }
 }
