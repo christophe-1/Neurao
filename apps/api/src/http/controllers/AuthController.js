@@ -2,10 +2,7 @@ import { loginSchema, registerSchema } from '@neurao/shared'
 import loginUser from '../../application/auth/loginUser.js'
 import registerUser from '../../application/auth/registerUser.js'
 import { HTTP_STATUS } from '../httpStatus.js'
-
-const SESSION_COOKIE_NAME = 'sid'
-// Même durée que SESSION_TTL_SECONDS dans RedisSessionRepository (2 h), en millisecondes
-const SESSION_MAX_AGE_MS = 7200000
+import { SESSION_COOKIE_NAME, SESSION_MAX_AGE_MS } from '../sessionCookie.js'
 
 export default class AuthController {
   constructor(userRepository, sessionRepository) {
