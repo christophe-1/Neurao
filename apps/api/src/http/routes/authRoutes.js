@@ -11,6 +11,7 @@ const router = Router()
 
 router.post('/register', (req, res) => controller.register(req, res))
 router.post('/login', (req, res) => controller.login(req, res))
+router.post('/logout', (req, res) => controller.logout(req, res))
 router.get('/me', requireAuth(sessionRepository), (req, res) => controller.me(req, res))
 
 export default router

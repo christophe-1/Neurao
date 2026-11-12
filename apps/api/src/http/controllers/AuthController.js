@@ -55,4 +55,18 @@ export default class AuthController {
   me(req, res) {
     return res.status(HTTP_STATUS.OK).json(req.session)
   }
+
+  /**
+   * Logs the user out: deletes the session in Redis and clears the cookie.
+   * Answers 204 even without a session, so logging out twice is not an error.
+   */
+  async logout(req, res) {
+    const sessionId = req.cookies[SESSION_COOKIE_NAME]
+    if (sessionId !== undefined) {
+      await this.sessionRepository.delete(sessionId)
+    }
+
+    res.clearCookie(SESSION_COOKIE_NAME)
+    return res.status(HTTP_STATUS.NO_CONTENT).end()
+  }
 }
