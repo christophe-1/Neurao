@@ -49,8 +49,7 @@ export default class AuthController {
   }
 
   /**
-   * Sends back the logged-in user's session (userId and role).
-   * Only works behind requireAuth, which fills req.session.
+   * Sends back the id and role of the logged-in user.
    */
   me(req, res) {
     return res.status(HTTP_STATUS.OK).json(req.session)

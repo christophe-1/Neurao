@@ -1,11 +1,8 @@
 import { HTTP_STATUS } from '../httpStatus.js'
 
 /**
- * Creates a middleware that only lets users with one of the allowed roles through.
- * Must be placed after requireAuth, which fills req.session.
- *
- * @param {string[]} allowedRoles - Roles allowed to continue, for example ['admin'].
- * @returns {Function} Middleware that answers 403 when the user's role is not allowed.
+ * Checks that the logged-in user has one of the allowed roles, otherwise answers 403.
+ * Use it after requireAuth.
  */
 export function requireRole(allowedRoles) {
   return (req, res, next) => {

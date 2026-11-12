@@ -2,11 +2,8 @@ import { HTTP_STATUS } from '../httpStatus.js'
 import { SESSION_COOKIE_NAME } from '../sessionCookie.js'
 
 /**
- * Creates a middleware that only lets logged-in users through.
- *
- * @param {object} sessionRepository - Finds a session in Redis from its id.
- * @returns {Function} Middleware that answers 401 without a valid session,
- *   or saves the session in req.session and calls next().
+ * Checks that the user is logged in.
+ * Answers 401 if the session cookie is missing or the session no longer exists.
  */
 export function requireAuth(sessionRepository) {
   return async (req, res, next) => {
