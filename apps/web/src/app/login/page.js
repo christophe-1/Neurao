@@ -33,33 +33,35 @@ export default function LoginPage() {
   }
 
   return (
-    <main>
-      <h1>Connexion</h1>
+    <main className="auth-page">
+      <div className="auth-card">
+        <h1>J’ai déjà un compte</h1>
 
-      <form className="form" onSubmit={handleSubmit}>
-        <label htmlFor="email">Email</label>
-        <input id="email" name="email" type="email" autoComplete="email" required />
+        <form className="form" onSubmit={handleSubmit}>
+          <label htmlFor="email">Email</label>
+          <input id="email" name="email" type="email" autoComplete="email" required />
 
-        <label htmlFor="password">Mot de passe</label>
-        <PasswordInput id="password" name="password" autoComplete="current-password" required />
+          <label htmlFor="password">Mot de passe</label>
+          <PasswordInput id="password" name="password" autoComplete="current-password" required />
 
-        {error && (
-          <p className="form-error" role="alert">
-            {error}
-          </p>
-        )}
+          {error && (
+            <p className="form-error" role="alert">
+              {error}
+            </p>
+          )}
 
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Connexion...' : 'Se connecter'}
-        </button>
-      </form>
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Connexion...' : 'Se connecter'}
+          </button>
+        </form>
 
-      <p>
-        Pas encore de compte ?{' '}
-        <Link href="/register" className="text-link">
-          Créer un compte
-        </Link>
-      </p>
+        <p>
+          Pas encore de compte ?{' '}
+          <Link href="/register" className="text-link">
+            Créer un compte
+          </Link>
+        </p>
+      </div>
     </main>
   )
 }
