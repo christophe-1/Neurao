@@ -138,6 +138,38 @@ button:focus-visible {
   line-height: 1.6;
 }
 
+/* Page d'accueil */
+.hero {
+  margin-bottom: 48px;
+  padding: 48px 24px;
+  border-radius: 16px;
+  background: var(--color-surface);
+  text-align: center;
+}
+
+.hero p {
+  max-width: 60ch;
+  margin: 0 auto 24px;
+  line-height: 1.6;
+}
+
+.hero-cta {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: var(--color-surface);
+  font-weight: 600;
+}
+
+.hero-cta:hover {
+  text-decoration: underline;
+}
+
+.featured h2 {
+  margin-bottom: 16px;
+}
+
 /* En-tête et pied de page */
 .site-header {
   background: var(--color-surface);
