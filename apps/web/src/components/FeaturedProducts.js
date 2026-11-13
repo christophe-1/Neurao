@@ -26,6 +26,7 @@ export default function FeaturedProducts() {
             id={product.id}
             name={product.name}
             unitPriceCents={product.unitPriceCents}
+            image={product.image}
           />
         ))}
       </div>

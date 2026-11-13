@@ -98,6 +98,37 @@ h1 {
   display: block;
 }
 
+/* Images des produits */
+.product-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.product-image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-background);
+  font-size: 0.9rem;
+}
+
+.product-detail {
+  display: grid;
+  gap: 32px;
+}
+
+@media (min-width: 900px) {
+  .product-detail {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
 .pagination {
   display: flex;
   align-items: center;

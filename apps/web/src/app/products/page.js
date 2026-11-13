@@ -35,6 +35,7 @@ export default function ProductsPage() {
             id={product.id}
             name={product.name}
             unitPriceCents={product.unitPriceCents}
+            image={product.image}
           />
         ))}
       </div>
