@@ -14,6 +14,7 @@ const FIELD_ERRORS = {
   password: 'Le mot de passe doit contenir entre 15 et 64 caractères',
 }
 
+/** Sign-up form, checked with the same Zod schema as the API before sending. */
 export default function RegisterPage() {
   const router = useRouter()
   const [errors, setErrors] = useState({})

@@ -4,12 +4,14 @@ import registerUser from '../../application/auth/registerUser.js'
 import { HTTP_STATUS } from '../httpStatus.js'
 import { SESSION_COOKIE_NAME, SESSION_MAX_AGE_MS } from '../sessionCookie.js'
 
+/** Answers the HTTP requests about accounts and sessions. */
 export default class AuthController {
   constructor(userRepository, sessionRepository) {
     this.userRepository = userRepository
     this.sessionRepository = sessionRepository
   }
 
+  /** Creates an account. Answers 400 for invalid data and 409 if the email is already used. */
   async register(req, res) {
     const result = registerSchema.safeParse(req.body)
     if (!result.success) {
@@ -26,6 +28,9 @@ export default class AuthController {
     return res.status(HTTP_STATUS.CREATED).json(user.toPublic())
   }
 
+  /**
+   * Logs the user in and sets the session cookie. Answers 401 with the same message for any wrong credentials.
+   */
   async login(req, res) {
     const result = loginSchema.safeParse(req.body)
     if (!result.success) {

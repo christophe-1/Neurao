@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 
+/** Password field with an eye button to show or hide what is typed. */
 export default function PasswordInput(props) {
   const [isVisible, setIsVisible] = useState(false)
 

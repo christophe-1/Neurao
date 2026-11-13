@@ -1,5 +1,9 @@
 const ROLES = ['customer', 'manager', 'admin']
 
+/**
+ * A customer, manager or admin account.
+ * The constructor refuses any role outside the allowed list.
+ */
 export default class User {
   constructor({ id, email, passwordHash, firstName, lastName, role }) {
     if (!ROLES.includes(role)) {
@@ -14,6 +18,7 @@ export default class User {
     this.role = role
   }
 
+  /** Returns the user without the password hash, safe to send to the browser. */
   toPublic() {
     return {
       id: this.id,

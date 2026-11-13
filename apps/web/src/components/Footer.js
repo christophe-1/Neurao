@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+/** Site footer with the legal links. */
 export default function Footer() {
   return (
     <footer className="site-footer">

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import FeaturedProducts from '@/components/FeaturedProducts'
 
+/** Home page: presentation of the brand and three featured products. */
 export default function Home() {
   return (
     <main>

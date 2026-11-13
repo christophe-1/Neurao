@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { fetchMe, logout } from '@/lib/api'
 
+/** Site header. Asks /me to show either the login links or the logout button. */
 export default function Header() {
   const router = useRouter()
   const queryClient = useQueryClient()

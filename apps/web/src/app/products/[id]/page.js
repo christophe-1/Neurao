@@ -6,6 +6,7 @@ import ProductImage from '@/components/ProductImage'
 import { fetchProduct } from '@/lib/api'
 import formatPrice from '@/lib/formatPrice'
 
+/** Product page: photo, price and description. */
 export default function ProductPage() {
   const { id } = useParams()
   const { data, isPending, isError } = useQuery({

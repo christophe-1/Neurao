@@ -1,3 +1,7 @@
+/**
+ * A product of the catalogue.
+ * The constructor refuses a negative price or stock and an isActive that is not a boolean.
+ */
 export default class Product {
   constructor({
     id,
@@ -35,6 +39,7 @@ export default class Product {
     this.categoryId = categoryId
   }
 
+  /** Tells if the product can be bought: active and in stock. */
   isAvailable() {
     return this.isActive === true && this.stock > 0
   }

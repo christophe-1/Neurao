@@ -6,6 +6,7 @@ import { fetchProducts } from '@/lib/api'
 
 const FEATURED_COUNT = 3
 
+/** Shows the first three products of the catalogue on the home page. */
 export default function FeaturedProducts() {
   const { data } = useQuery({
     queryKey: ['products', 1],

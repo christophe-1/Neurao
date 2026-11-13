@@ -2,7 +2,11 @@ import { Op } from 'sequelize'
 import Product from '../../domain/Product.js'
 import { Category as CategoryModel, Product as ProductModel } from '../database/models/index.js'
 
+/** Reads and updates products in MySQL with Sequelize. */
 export default class SequelizeProductRepository {
+  /**
+   * Returns one page of active products and the total count, with optional category and search filters.
+   */
   async findAll(filters) {
     const where = { isActive: true }
     if (filters.search) {
@@ -23,6 +27,7 @@ export default class SequelizeProductRepository {
     }
   }
 
+  /** Returns the product with this id, active or not, or null. */
   async findById(id) {
     const row = await ProductModel.findByPk(id)
     if (row === null) {
@@ -31,6 +36,7 @@ export default class SequelizeProductRepository {
     return new Product(row)
   }
 
+  /** Hides a product from the catalogue (is_active = 0) instead of deleting it. */
   async deactivate(id) {
     await ProductModel.update({ isActive: false }, { where: { id } })
   }

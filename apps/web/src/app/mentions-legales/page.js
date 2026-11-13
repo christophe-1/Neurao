@@ -4,6 +4,7 @@ export const metadata = {
   title: 'Mentions légales',
 }
 
+/** Legal notice page. */
 export default function LegalNoticePage() {
   return (
     <main className="legal">
