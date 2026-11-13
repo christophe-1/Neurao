@@ -1,5 +1,7 @@
 'use client'
 
+import { useQueryClient } from '@tanstack/react-query'
+
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -8,6 +10,7 @@ import { login } from '@/lib/api'
 
 export default function LoginPage() {
   const router = useRouter()
+  const queryClient = useQueryClient()
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -19,6 +22,7 @@ export default function LoginPage() {
 
     try {
       await login({ email: formData.get('email'), password: formData.get('password') })
+      await queryClient.invalidateQueries({ queryKey: ['me'] })
       router.push('/products')
     } catch (error) {
       setError(error.message)
