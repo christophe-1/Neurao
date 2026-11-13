@@ -38,8 +38,6 @@ body {
   background: var(--sable);
   font-family: var(--font-outfit), sans-serif;
   line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 a {

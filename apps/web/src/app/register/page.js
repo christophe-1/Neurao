@@ -23,7 +23,13 @@ export default function RegisterPage() {
 
   async function handleSubmit(event) {
     event.preventDefault()
-    const values = Object.fromEntries(new FormData(event.currentTarget))
+    const formData = new FormData(event.currentTarget)
+    const values = {
+      firstName: formData.get('firstName'),
+      lastName: formData.get('lastName'),
+      email: formData.get('email'),
+      password: formData.get('password'),
+    }
     setServerError('')
 
     const result = registerSchema.safeParse(values)
