@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import PasswordInput from '@/components/PasswordInput'
 import { login } from '@/lib/api'
 
 export default function LoginPage() {
@@ -35,13 +36,7 @@ export default function LoginPage() {
         <input id="email" name="email" type="email" autoComplete="email" required />
 
         <label htmlFor="password">Mot de passe</label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          autoComplete="current-password"
-          required
-        />
+        <PasswordInput id="password" name="password" autoComplete="current-password" required />
 
         {error && (
           <p className="form-error" role="alert">

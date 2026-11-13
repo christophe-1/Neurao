@@ -224,8 +224,27 @@ button:focus-visible {
   color: var(--color-error);
 }
 
-.form-hint {
-  font-size: 0.9rem;
+.password-field {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.password-field input {
+  width: 100%;
+  margin-bottom: 0;
+  padding-right: 48px;
+}
+
+.form .password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  display: flex;
+  padding: 6px;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-primary);
+  transform: translateY(-50%);
 }
 
 .text-link {

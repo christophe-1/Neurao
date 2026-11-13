@@ -4,6 +4,7 @@ import { registerSchema } from '@neurao/shared'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import PasswordInput from '@/components/PasswordInput'
 import { register } from '@/lib/api'
 
 const FIELD_ERRORS = {
@@ -66,16 +67,7 @@ export default function RegisterPage() {
         {errors.email && <p className="form-error">{errors.email}</p>}
 
         <label htmlFor="password">Mot de passe</label>
-        <p id="password-hint" className="form-hint">
-          Au moins 15 caractères : une phrase de plusieurs mots est plus facile à retenir.
-        </p>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          autoComplete="new-password"
-          aria-describedby="password-hint"
-        />
+        <PasswordInput id="password" name="password" autoComplete="new-password" />
         {errors.password && <p className="form-error">{errors.password}</p>}
 
         {serverError && (
