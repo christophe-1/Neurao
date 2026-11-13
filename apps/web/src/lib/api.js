@@ -24,11 +24,11 @@ export async function fetchProduct(id) {
   return response.json()
 }
 
-export async function login(credentials) {
-  const response = await fetch('/api/auth/login', {
+async function postJson(url, body) {
+  const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(credentials),
+    body: JSON.stringify(body),
   })
   const data = await response.json()
 
@@ -37,4 +37,12 @@ export async function login(credentials) {
   }
 
   return data
+}
+
+export function login(credentials) {
+  return postJson('/api/auth/login', credentials)
+}
+
+export function register(user) {
+  return postJson('/api/auth/register', user)
 }

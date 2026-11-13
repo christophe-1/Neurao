@@ -1,0 +1,100 @@
+'use client'
+
+import { registerSchema } from '@neurao/shared'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { register } from '@/lib/api'
+
+const FIELD_ERRORS = {
+  firstName: 'Le prénom est obligatoire',
+  lastName: 'Le nom est obligatoire',
+  email: 'Adresse email invalide',
+  password: 'Le mot de passe doit contenir entre 15 et 64 caractères',
+}
+
+export default function RegisterPage() {
+  const router = useRouter()
+  const [errors, setErrors] = useState({})
+  const [serverError, setServerError] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  async function handleSubmit(event) {
+    event.preventDefault()
+    const values = Object.fromEntries(new FormData(event.currentTarget))
+    setServerError('')
+
+    const result = registerSchema.safeParse(values)
+    if (!result.success) {
+      const fieldErrors = {}
+      for (const issue of result.error.issues) {
+        const field = issue.path[0]
+        fieldErrors[field] = FIELD_ERRORS[field]
+      }
+      setErrors(fieldErrors)
+      return
+    }
+
+    setErrors({})
+    setIsSubmitting(true)
+
+    try {
+      await register(result.data)
+      router.push('/login')
+    } catch (error) {
+      setServerError(error.message)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  return (
+    <main>
+      <h1>Créer un compte</h1>
+
+      <form className="form" onSubmit={handleSubmit} noValidate>
+        <label htmlFor="firstName">Prénom</label>
+        <input id="firstName" name="firstName" autoComplete="given-name" />
+        {errors.firstName && <p className="form-error">{errors.firstName}</p>}
+
+        <label htmlFor="lastName">Nom</label>
+        <input id="lastName" name="lastName" autoComplete="family-name" />
+        {errors.lastName && <p className="form-error">{errors.lastName}</p>}
+
+        <label htmlFor="email">Email</label>
+        <input id="email" name="email" type="email" autoComplete="email" />
+        {errors.email && <p className="form-error">{errors.email}</p>}
+
+        <label htmlFor="password">Mot de passe</label>
+        <p id="password-hint" className="form-hint">
+          Au moins 15 caractères : une phrase de plusieurs mots est plus facile à retenir.
+        </p>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          autoComplete="new-password"
+          aria-describedby="password-hint"
+        />
+        {errors.password && <p className="form-error">{errors.password}</p>}
+
+        {serverError && (
+          <p className="form-error" role="alert">
+            {serverError}
+          </p>
+        )}
+
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Création...' : 'Créer mon compte'}
+        </button>
+      </form>
+
+      <p>
+        Déjà un compte ?{' '}
+        <Link href="/login" className="text-link">
+          Se connecter
+        </Link>
+      </p>
+    </main>
+  )
+}

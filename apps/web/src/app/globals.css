@@ -224,6 +224,10 @@ button:focus-visible {
   color: var(--color-error);
 }
 
+.form-hint {
+  font-size: 0.9rem;
+}
+
 .text-link {
   color: var(--color-primary);
   text-decoration: underline;
