@@ -29,6 +29,23 @@ export default function Header() {
           <Link href="/products">La gamme</Link>
         </nav>
 
+        <form action="/search" className="header-search">
+          <button type="submit" aria-label="Rechercher">
+            <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" strokeWidth="1.75" />
+              <path d="M16 16l5 5" fill="none" stroke="currentColor" strokeWidth="1.75" />
+            </svg>
+          </button>
+          <input
+            name="query"
+            type="search"
+            placeholder="Rechercher un produit"
+            aria-label="Rechercher un produit"
+            maxLength={100}
+            required
+          />
+        </form>
+
         <div className="site-actions">
           {!isPending && me && (
             <button type="button" className="button-secondary" onClick={handleLogout}>
