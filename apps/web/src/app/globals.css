@@ -252,6 +252,21 @@ button:focus-visible {
   text-decoration: underline;
 }
 
+/* Pages légales */
+.legal {
+  max-width: 75ch;
+  line-height: 1.6;
+}
+
+.legal h2 {
+  margin: 32px 0 8px;
+  font-size: 1.25rem;
+}
+
+.legal ul {
+  padding-left: 24px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .product-card {
     transition: none;
