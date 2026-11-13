@@ -24,6 +24,10 @@ export default class SequelizeUserRepository {
 
   async create({ email, passwordHash, firstName, lastName, role }) {
     const roleLigne = await RoleModel.findOne({ where: { code: role } })
+    if (roleLigne === null) {
+      throw new Error(`Rôle "${role}" absent de la table roles : lancer les seeders`)
+    }
+
     try {
       const ligne = await UserModel.create({
         email,

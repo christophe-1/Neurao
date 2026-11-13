@@ -30,4 +30,8 @@ export default class SequelizeProductRepository {
     }
     return new Product(ligne)
   }
+
+  async deactivate(id) {
+    await ProductModel.update({ isActive: false }, { where: { id } })
+  }
 }

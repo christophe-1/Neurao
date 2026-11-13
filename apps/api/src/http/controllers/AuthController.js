@@ -2,10 +2,7 @@ import { loginSchema, registerSchema } from '@neurao/shared'
 import loginUser from '../../application/auth/loginUser.js'
 import registerUser from '../../application/auth/registerUser.js'
 import { HTTP_STATUS } from '../httpStatus.js'
-
-const SESSION_COOKIE_NAME = 'sid'
-// Même durée que SESSION_TTL_SECONDS dans RedisSessionRepository (2 h), en millisecondes
-const SESSION_MAX_AGE_MS = 7200000
+import { SESSION_COOKIE_NAME, SESSION_MAX_AGE_MS } from '../sessionCookie.js'
 
 export default class AuthController {
   constructor(userRepository, sessionRepository) {
@@ -49,5 +46,26 @@ export default class AuthController {
       maxAge: SESSION_MAX_AGE_MS,
     })
     return res.status(HTTP_STATUS.OK).json(session.user.toPublic())
+  }
+
+  /**
+   * Sends back the id and role of the logged-in user.
+   */
+  me(req, res) {
+    return res.status(HTTP_STATUS.OK).json(req.session)
+  }
+
+  /**
+   * Logs the user out: deletes the session in Redis and clears the cookie.
+   * Answers 204 even without a session, so logging out twice is not an error.
+   */
+  async logout(req, res) {
+    const sessionId = req.cookies[SESSION_COOKIE_NAME]
+    if (sessionId !== undefined) {
+      await this.sessionRepository.delete(sessionId)
+    }
+
+    res.clearCookie(SESSION_COOKIE_NAME)
+    return res.status(HTTP_STATUS.NO_CONTENT).end()
   }
 }
