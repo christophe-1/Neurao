@@ -18,17 +18,17 @@ export default class SequelizeProductRepository {
       offset: filters.offset,
     })
     return {
-      products: rows.map((ligne) => new Product(ligne)),
+      products: rows.map((row) => new Product(row)),
       total: count,
     }
   }
 
   async findById(id) {
-    const ligne = await ProductModel.findByPk(id)
-    if (ligne === null) {
+    const row = await ProductModel.findByPk(id)
+    if (row === null) {
       return null
     }
-    return new Product(ligne)
+    return new Product(row)
   }
 
   async deactivate(id) {

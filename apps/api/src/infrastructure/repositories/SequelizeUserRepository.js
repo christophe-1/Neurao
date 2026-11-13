@@ -2,41 +2,41 @@ import { UniqueConstraintError } from 'sequelize'
 import User from '../../domain/User.js'
 import { Role as RoleModel, User as UserModel } from '../database/models/index.js'
 
-function toDomain(ligne) {
+function toDomain(row) {
   return new User({
-    id: ligne.id,
-    email: ligne.email,
-    passwordHash: ligne.passwordHash,
-    firstName: ligne.firstName,
-    lastName: ligne.lastName,
-    role: ligne.Role.code,
+    id: row.id,
+    email: row.email,
+    passwordHash: row.passwordHash,
+    firstName: row.firstName,
+    lastName: row.lastName,
+    role: row.Role.code,
   })
 }
 
 export default class SequelizeUserRepository {
   async findByEmail(email) {
-    const ligne = await UserModel.findOne({ where: { email }, include: [RoleModel] })
-    if (ligne === null) {
+    const row = await UserModel.findOne({ where: { email }, include: [RoleModel] })
+    if (row === null) {
       return null
     }
-    return toDomain(ligne)
+    return toDomain(row)
   }
 
   async create({ email, passwordHash, firstName, lastName, role }) {
-    const roleLigne = await RoleModel.findOne({ where: { code: role } })
-    if (roleLigne === null) {
+    const roleRow = await RoleModel.findOne({ where: { code: role } })
+    if (roleRow === null) {
       throw new Error(`Rôle "${role}" absent de la table roles : lancer les seeders`)
     }
 
     try {
-      const ligne = await UserModel.create({
+      const row = await UserModel.create({
         email,
         passwordHash,
         firstName,
         lastName,
-        roleId: roleLigne.id,
+        roleId: roleRow.id,
       })
-      return new User({ id: ligne.id, email, passwordHash, firstName, lastName, role })
+      return new User({ id: row.id, email, passwordHash, firstName, lastName, role })
     } catch (error) {
       if (error instanceof UniqueConstraintError) {
         return null

@@ -3,12 +3,12 @@ import { Category as CategoryModel } from '../database/models/index.js'
 
 export default class SequelizeCategoryRepository {
   async findAll() {
-    const lignes = await CategoryModel.findAll({
+    const rows = await CategoryModel.findAll({
       order: [
         ['position', 'ASC'],
         ['name', 'ASC'],
       ],
     })
-    return lignes.map((ligne) => new Category(ligne))
+    return rows.map((row) => new Category(row))
   }
 }
