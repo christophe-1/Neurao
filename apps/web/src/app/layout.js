@@ -1,4 +1,6 @@
 import { Outfit } from 'next/font/google'
+import Footer from '@/components/Footer'
+import Header from '@/components/Header'
 import './globals.css'
 import Providers from './providers'
 
@@ -18,7 +20,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fr" className={outfit.variable}>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   )
