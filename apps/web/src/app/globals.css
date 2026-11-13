@@ -4,6 +4,7 @@
   --color-primary: #3f6e7a;
   --color-accent: #e9746a;
   --color-surface: #ffffff;
+  --color-error: #b3261e;
 }
 
 html {
@@ -190,6 +191,42 @@ button:focus-visible {
 
 .site-footer a:focus-visible {
   outline-color: var(--color-surface);
+}
+
+/* Formulaires */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 400px;
+  margin-bottom: 24px;
+}
+
+.form input {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-text);
+  border-radius: 8px;
+  background: var(--color-surface);
+  font: inherit;
+}
+
+.form input:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.form button {
+  align-self: flex-start;
+}
+
+.form-error {
+  color: var(--color-error);
+}
+
+.text-link {
+  color: var(--color-primary);
+  text-decoration: underline;
 }
 
 @media (prefers-reduced-motion: reduce) {
