@@ -1,15 +1,19 @@
 import Image from 'next/image'
 
-/** Product photo inside a soft frame, or a "Photo à venir" frame when there is no photo. */
-export default function ProductImage({ src, alt, size }) {
+/** Product photo on a tile of the colour of its range, or the neuraO logo when there is no photo. */
+export default function ProductImage({ src, alt, size, color }) {
   return (
-    <div className="product-image-frame">
+    <div className={`product-image-frame tile-${color}`}>
       {src ? (
         <Image src={src} alt={alt} width={size} height={size} className="product-image" />
       ) : (
-        <p className="product-image-placeholder" aria-hidden="true">
-          Photo à venir
-        </p>
+        <Image
+          src="/images/logo-neurao.svg"
+          alt=""
+          width={96}
+          height={96}
+          className="product-image-placeholder"
+        />
       )}
     </div>
   )

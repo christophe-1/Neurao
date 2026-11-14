@@ -1,11 +1,12 @@
 'use client'
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { fetchMe, logout } from '@/lib/api'
 
-/** Site header. Asks /me to show either the login links or the logout button. */
+/** Site header. Asks /me to show either the login link or the logout button. */
 export default function Header() {
   const router = useRouter()
   const queryClient = useQueryClient()
@@ -21,34 +22,34 @@ export default function Header() {
     <header className="site-header">
       <div className="site-header-inner">
         <Link href="/" className="site-logo">
-          neuraO
+          <Image src="/images/logo-neurao.svg" alt="neuraO, accueil" width={64} height={64} />
         </Link>
-        <nav aria-label="Navigation principale">
-          <ul className="site-nav">
-            <li>
-              <Link href="/products">Catalogue</Link>
-            </li>
-            {!isPending && me && (
-              <li>
-                <button type="button" className="nav-cta" onClick={handleLogout}>
-                  Déconnexion
-                </button>
-              </li>
-            )}
-            {!isPending && !me && (
-              <>
-                <li>
-                  <Link href="/login">Connexion</Link>
-                </li>
-                <li>
-                  <Link href="/register" className="nav-cta">
-                    Inscription
-                  </Link>
-                </li>
-              </>
-            )}
-          </ul>
+
+        <nav aria-label="Navigation principale" className="site-nav">
+          <Link href="/products">La gamme</Link>
         </nav>
+
+        <div className="site-actions">
+          {!isPending && me && (
+            <button type="button" className="button-secondary" onClick={handleLogout}>
+              Déconnexion
+            </button>
+          )}
+          {!isPending && !me && (
+            <Link href="/login" className="account-link">
+              <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" strokeWidth="1.75" />
+                <path
+                  d="M4 21c0-4 3.6-7 8-7s8 3 8 7"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                />
+              </svg>
+              Connexion
+            </Link>
+          )}
+        </div>
       </div>
     </header>
   )

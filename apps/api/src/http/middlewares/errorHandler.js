@@ -9,7 +9,7 @@ export function errorHandler(error, req, res, next) {
     return next(error)
   }
 
-  // Remplacé par un journal applicatif plus tard (règle ESLint no-console)
+  // To be replaced by an application logger later (ESLint no-console rule)
   console.error(error)
 
   return res
