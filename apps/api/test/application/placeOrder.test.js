@@ -17,8 +17,7 @@ const focus = new Product({
 })
 
 const orderData = {
-  productId: 52,
-  quantity: 2,
+  items: [{ productId: 52, quantity: 2 }],
   fullName: 'Jean Dupont',
   address: '1 rue de la Paix',
   postalCode: '83000',
@@ -43,7 +42,7 @@ describe('placeOrder', () => {
     // Act
     const order = await placeOrder(productRepository, orderRepository, 7, {
       ...orderData,
-      quantity: 4,
+      items: [{ productId: 52, quantity: 4 }],
     })
 
     // Assert

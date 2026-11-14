@@ -21,19 +21,13 @@ export default class SequelizeOrderRepository {
   }
 
   /**
-   * Saves the order, its line and the new stock in one transaction: all or nothing.
-   * Returns null if the stock is too low when the product row is locked.
+   * Saves the order, its lines and the new stocks in one transaction: all or nothing.
+   * Returns null if the stock of one product is too low when its row is locked.
    */
-  async create({ number, userId, product, quantity, shippingMethod, totalCents, address }) {
+  async create({ number, userId, lines, shippingMethod, totalCents, address }) {
     const transaction = await sequelize.transaction()
 
     try {
-      const productRow = await ProductModel.findByPk(product.id, { transaction, lock: true })
-      if (productRow.stock < quantity) {
-        await transaction.rollback()
-        return null
-      }
-
       const orderRow = await OrderModel.create(
         {
           number,
@@ -56,19 +50,27 @@ export default class SequelizeOrderRepository {
         { transaction },
       )
 
-      await OrderItemModel.create(
-        {
-          orderId: orderRow.id,
-          productId: product.id,
-          quantity,
-          unitPriceCents: product.unitPriceCents,
-          vatRateBp: product.vatRateBp,
-          productName: product.name,
-        },
-        { transaction },
-      )
+      for (const line of lines) {
+        const productRow = await ProductModel.findByPk(line.product.id, { transaction, lock: true })
+        if (productRow.stock < line.quantity) {
+          await transaction.rollback()
+          return null
+        }
 
-      await productRow.decrement('stock', { by: quantity, transaction })
+        await OrderItemModel.create(
+          {
+            orderId: orderRow.id,
+            productId: line.product.id,
+            quantity: line.quantity,
+            unitPriceCents: line.product.unitPriceCents,
+            vatRateBp: line.product.vatRateBp,
+            productName: line.product.name,
+          },
+          { transaction },
+        )
+
+        await productRow.decrement('stock', { by: line.quantity, transaction })
+      }
 
       await transaction.commit()
       return { id: orderRow.id, number, status: 'pending', totalCents }

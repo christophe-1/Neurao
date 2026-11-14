@@ -1,20 +1,31 @@
+import { randomBytes } from 'node:crypto'
+
+const ORDER_NUMBER_BYTES = 4
+
 /**
- * Places an order for one product, delivered to one address (payment comes later: status pending).
+ * Places an order for the products of the cart, delivered to one address (payment comes later: status pending).
  * Prices are read from the database, never from the request.
- * Returns null if the product is not for sale or the stock is too low.
+ * Returns null if one product is not for sale or its stock is too low.
  */
 export default async function placeOrder(productRepository, orderRepository, userId, data) {
-  const product = await productRepository.findById(data.productId)
-  if (product === null || !product.isAvailable() || product.stock < data.quantity) {
-    return null
+  const lines = []
+  let productsTotalCents = 0
+
+  for (const item of data.items) {
+    const product = await productRepository.findById(item.productId)
+    if (product === null || !product.isAvailable() || product.stock < item.quantity) {
+      return null
+    }
+    lines.push({ product: product, quantity: item.quantity })
+    productsTotalCents = productsTotalCents + product.unitPriceCents * item.quantity
   }
+
   const shippingMethod = await orderRepository.findDefaultShippingMethod()
-  const totalCents = product.unitPriceCents * data.quantity + shippingMethod.priceCents
+  const totalCents = productsTotalCents + shippingMethod.priceCents
   const order = await orderRepository.create({
-    number: `NEU-${Date.now()}`,
+    number: `NEU-${randomBytes(ORDER_NUMBER_BYTES).toString('hex').toUpperCase()}`,
     userId,
-    product,
-    quantity: data.quantity,
+    lines,
     shippingMethod,
     totalCents,
     address: data,

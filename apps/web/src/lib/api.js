@@ -66,6 +66,11 @@ export function register(user) {
   return postJson('/api/auth/register', user)
 }
 
+/** Places an order with the products of the cart and the delivery address. */
+export function placeOrder(order) {
+  return postJson('/api/orders', order)
+}
+
 /** Returns the logged-in user (id and role), or null if nobody is logged in. */
 export async function fetchMe() {
   const response = await fetch('/api/auth/me')
