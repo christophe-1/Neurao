@@ -27,6 +27,23 @@ export const useCartStore = create(
         }
         set({ items: [...otherItems, newItem] })
       },
+
+      /** Changes the quantity of a product of the cart. */
+      changeQuantity: (productId, quantity) => {
+        const newItems = get().items.map((item) => {
+          if (item.productId === productId) {
+            return { ...item, quantity: quantity }
+          }
+          return item
+        })
+        set({ items: newItems })
+      },
+
+      /** Removes a product from the cart. */
+      removeItem: (productId) => {
+        const newItems = get().items.filter((item) => item.productId !== productId)
+        set({ items: newItems })
+      },
     }),
     { name: 'neurao-cart', skipHydration: true },
   ),
