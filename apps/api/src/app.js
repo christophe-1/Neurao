@@ -5,6 +5,7 @@ import express from 'express'
 import productRoutes from './http/routes/productRoutes.js'
 import categoryRoutes from './http/routes/categoryRoutes.js'
 import authRoutes from './http/routes/authRoutes.js'
+import orderRoutes from './http/routes/orderRoutes.js'
 import { errorHandler } from './http/middlewares/errorHandler.js'
 
 const app = express()
@@ -20,6 +21,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/products', productRoutes)
 app.use('/api/categories', categoryRoutes)
 app.use('/api/auth', authRoutes)
+app.use('/api/orders', orderRoutes)
 
 app.use(errorHandler)
 export default app
