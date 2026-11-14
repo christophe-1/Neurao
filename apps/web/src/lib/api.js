@@ -1,9 +1,11 @@
 const UNAUTHORIZED = 401
 const NOT_FOUND = 404
 
-/** Fetches one page of the catalogue. */
-export async function fetchProducts(page) {
-  const response = await fetch(`/api/products?page=${page}`)
+/** Fetches one page of the catalogue, filtered by a search text and a category. */
+export async function fetchProducts(page, search, category) {
+  const response = await fetch(
+    `/api/products?page=${page}&search=${encodeURIComponent(search)}&category=${category}`,
+  )
 
   if (!response.ok) {
     throw new Error('Impossible de charger les produits')
@@ -22,6 +24,17 @@ export async function fetchProduct(id) {
 
   if (!response.ok) {
     throw new Error('Impossible de charger le produit')
+  }
+
+  return response.json()
+}
+
+/** Fetches the list of categories (Gélules, Gommes, Liquides, Poudres). */
+export async function fetchCategories() {
+  const response = await fetch('/api/categories')
+
+  if (!response.ok) {
+    throw new Error('Impossible de charger les catégories')
   }
 
   return response.json()

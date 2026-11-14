@@ -11,7 +11,7 @@ const FEATURED_COUNT = 4
 export default function FeaturedProducts() {
   const { data } = useQuery({
     queryKey: ['products', 1],
-    queryFn: () => fetchProducts(1),
+    queryFn: () => fetchProducts(1, '', ''),
   })
 
   if (!data) {
