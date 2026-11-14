@@ -44,6 +44,10 @@ export const useCartStore = create(
         const newItems = get().items.filter((item) => item.productId !== productId)
         set({ items: newItems })
       },
+      /** Empties the cart, once the order is placed. */
+      clearCart: () => {
+        set({ items: [] })
+      },
     }),
     { name: 'neurao-cart', skipHydration: true },
   ),
