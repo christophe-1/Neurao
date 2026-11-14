@@ -4,6 +4,8 @@ Deuxième requête du projet réécrite en SQL à la main, après la recherche p
 
 Route concernée : `POST /api/orders` (connexion obligatoire). Code : `SequelizeOrderRepository.create`.
 
+Les sections suivantes montrent une commande d'un seul produit, pour rester lisibles. Depuis l'arrivée du panier, une commande peut contenir plusieurs produits : voir la dernière section, « Une commande de plusieurs produits ».
+
 ## Ce que fait la transaction
 
 Une commande touche trois tables. Les trois écritures doivent réussir ensemble ou être annulées ensemble.
@@ -244,3 +246,34 @@ Les six requêtes portent le même identifiant de transaction dans le terminal :
 | Valeurs envoyées            | écrites en dur        | `?` + tableau de valeurs              | `?` dans les `INSERT`, valeurs échappées ailleurs |
 
 Différence notable avec la recherche paginée : pour un `INSERT`, Sequelize envoie des `?` et les valeurs à part (requête paramétrée), alors que pour un `SELECT` avec `where`, il échappe les valeurs et les écrit dans le texte. Les deux protègent de l'injection SQL.
+
+## Une commande de plusieurs produits
+
+Depuis l'arrivée du panier, `POST /api/orders` reçoit une liste `items` (de 1 à 20 produits, 1 à 10 de chacun). Le repository insère d'abord la commande, puis répète pour chaque ligne : verrou du produit, vérification du stock, insertion de la ligne, retrait du stock.
+
+Test sur la base de développement : deux lignes, la première possible (1 coffret), la seconde impossible (999 Focus). Requêtes affichées par Sequelize :
+
+```sql
+START TRANSACTION;
+INSERT INTO `orders` (…) VALUES (…);
+SELECT … FROM `products` AS `Product` WHERE `Product`.`id` = 100 FOR UPDATE;
+INSERT INTO `order_items` (…) VALUES (…);
+UPDATE `products` SET `stock`=`stock`- 1 … WHERE `id` = 100;
+SELECT … FROM `products` AS `Product` WHERE `Product`.`id` = 52 FOR UPDATE;
+ROLLBACK;
+```
+
+Le stock de Focus est trop bas : le `ROLLBACK` annule **aussi** la commande, la première ligne et le stock du coffret, déjà écrits. Après le test : aucune commande, stock du coffret inchangé. Le repository renvoie `null`, l'API répond 409.
+
+### Problème rencontré : le numéro de commande
+
+Le numéro était d'abord `NEU-` suivi de l'heure en millisecondes (`Date.now()`). En lançant deux commandes en même temps pour le test de concurrence, l'une a reçu **500** au lieu de 409 : les deux commandes avaient eu la même milliseconde, donc le même numéro, refusé par la contrainte `UNIQUE` de `orders.number` (`ER_DUP_ENTRY`). Le verrou, lui, fonctionnait : rejoué directement sur le repository avec deux numéros différents, le test donne bien une commande et un `null`.
+
+Correction : le numéro est maintenant tiré au hasard, comme l'identifiant de session (`randomBytes(4)`, soit 8 caractères hexadécimaux, par exemple `NEU-BFA23321`). La contrainte `UNIQUE` reste le dernier garde-fou. Après correction, trois essais de deux commandes simultanées sur les 3 derniers articles donnent chaque fois un 201 et un 409.
+
+### Limites connues
+
+| Cas                                                                                           | Effet                                                                                                                                             |
+| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Le même produit deux fois dans `items` (impossible depuis le panier, qui fusionne les lignes) | la contrainte `UNIQUE (order_id, product_id)` refuse la seconde ligne : tout est annulé, réponse 500                                              |
+| Deux commandes verrouillent les mêmes produits dans un ordre différent                        | MySQL détecte l'interblocage (deadlock) et annule l'une des deux transactions : réponse 500, aucune donnée incohérente ; le client peut réessayer |
