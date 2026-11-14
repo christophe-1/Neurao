@@ -8,6 +8,7 @@ import { useState } from 'react'
 import PasswordInput from '@/components/PasswordInput'
 import { login } from '@/lib/api'
 
+/** Login form. Shows the message of the API when the login is refused. */
 export default function LoginPage() {
   const router = useRouter()
   const queryClient = useQueryClient()

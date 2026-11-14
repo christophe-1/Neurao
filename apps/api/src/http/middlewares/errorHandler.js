@@ -1,6 +1,9 @@
 import { HTTP_STATUS } from '../httpStatus.js'
 
-// Filet de sécurité : Express 5 envoie ici toute erreur qu'un contrôleur n'a pas traitée
+/**
+ * Last middleware: Express 5 sends here any error that a controller did not handle.
+ * Logs the details for the developer and answers a neutral 500 to the client.
+ */
 export function errorHandler(error, req, res, next) {
   if (res.headersSent) {
     return next(error)

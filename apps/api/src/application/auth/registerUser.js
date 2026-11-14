@@ -2,6 +2,10 @@ import bcrypt from 'bcrypt'
 
 const BCRYPT_COST = 10
 
+/**
+ * Creates a customer account with a bcrypt-hashed password.
+ * Returns null if the email is already used.
+ */
 export default async function registerUser(
   userRepository,
   { email, password, firstName, lastName },

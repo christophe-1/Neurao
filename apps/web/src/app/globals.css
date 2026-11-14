@@ -5,6 +5,7 @@
   --color-accent: #e9746a;
   --color-surface: #ffffff;
   --color-error: #b3261e;
+  --color-tile: #fbe9e3;
 }
 
 html {
@@ -96,6 +97,41 @@ h1 {
 
 .product-card a {
   display: block;
+}
+
+/* Images des produits */
+.product-image-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  margin-bottom: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--color-tile);
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+.product-image-placeholder {
+  font-size: 0.9rem;
+}
+
+.product-detail {
+  display: grid;
+  gap: 32px;
+}
+
+@media (min-width: 900px) {
+  .product-detail {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
 }
 
 .pagination {

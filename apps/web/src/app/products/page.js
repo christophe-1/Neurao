@@ -5,6 +5,7 @@ import { useState } from 'react'
 import ProductCard from '@/components/ProductCard'
 import { fetchProducts } from '@/lib/api'
 
+/** Catalogue page, with pagination. */
 export default function ProductsPage() {
   const [page, setPage] = useState(1)
   const { data, isPending, isError } = useQuery({
@@ -35,6 +36,7 @@ export default function ProductsPage() {
             id={product.id}
             name={product.name}
             unitPriceCents={product.unitPriceCents}
+            image={product.image}
           />
         ))}
       </div>
