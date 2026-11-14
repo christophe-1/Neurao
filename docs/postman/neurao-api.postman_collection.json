@@ -738,6 +738,283 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Commande",
+      "item": [
+        {
+          "name": "Produit à commander",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 et produit à commander trouvé', () => {",
+                  "  pm.response.to.have.status(200)",
+                  "  const product = pm.response.json().products[0]",
+                  "  pm.expect(product.name).to.eql('Coffret découverte gommes')",
+                  "  pm.collectionVariables.set('orderProductId', product.id)",
+                  "  pm.collectionVariables.set('orderUnitPriceCents', product.unitPriceCents)",
+                  "})"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/products?search=Coffret découverte gommes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "Coffret découverte gommes"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Commande : sans session",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('401', () => pm.response.to.have.status(401))"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"items\": [{ \"productId\": {{orderProductId}}, \"quantity\": 2 }], \"fullName\": \"Jeu Essai\", \"address\": \"1 rue de l'Essai\", \"postalCode\": \"83000\", \"city\": \"Toulon\", \"countryCode\": \"FR\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Connexion client",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200', () => pm.response.to.have.status(200))"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"email\": \"jeu.essai@example.com\", \"password\": \"soleil-du-matin-2026\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Commande valide, prix truqué ignoré",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('201, en attente, total calculé avec le prix de la base', () => {",
+                  "  pm.response.to.have.status(201)",
+                  "  const order = pm.response.json()",
+                  "  const unitPriceCents = Number(pm.collectionVariables.get('orderUnitPriceCents'))",
+                  "  pm.expect(order.status).to.eql('pending')",
+                  "  pm.expect(order.number).to.match(/^NEU-/)",
+                  "  pm.expect(order.totalCents).to.eql(unitPriceCents * 2 + 490)",
+                  "})"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"items\": [{ \"productId\": {{orderProductId}}, \"quantity\": 2, \"unitPriceCents\": 1 }], \"fullName\": \"Jeu Essai\", \"address\": \"1 rue de l'Essai\", \"postalCode\": \"83000\", \"city\": \"Toulon\", \"countryCode\": \"FR\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Commande : produit désactivé",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('409 Produit indisponible ou stock insuffisant', () => {",
+                  "  pm.response.to.have.status(409)",
+                  "  pm.expect(pm.response.json().message).to.eql('Produit indisponible ou stock insuffisant')",
+                  "})"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"items\": [{ \"productId\": {{productId}}, \"quantity\": 1 }], \"fullName\": \"Jeu Essai\", \"address\": \"1 rue de l'Essai\", \"postalCode\": \"83000\", \"city\": \"Toulon\", \"countryCode\": \"FR\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Commande : quantité trop grande",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('400', () => pm.response.to.have.status(400))"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"items\": [{ \"productId\": {{orderProductId}}, \"quantity\": 11 }], \"fullName\": \"Jeu Essai\", \"address\": \"1 rue de l'Essai\", \"postalCode\": \"83000\", \"city\": \"Toulon\", \"countryCode\": \"FR\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Déconnexion client",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('204', () => pm.response.to.have.status(204))"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "variable": [
@@ -747,6 +1024,14 @@
     },
     {
       "key": "productId",
+      "value": ""
+    },
+    {
+      "key": "orderProductId",
+      "value": ""
+    },
+    {
+      "key": "orderUnitPriceCents",
       "value": ""
     }
   ]
