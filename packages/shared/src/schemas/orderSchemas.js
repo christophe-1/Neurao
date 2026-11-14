@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-const QUANTITY_MAX = 10
+export const QUANTITY_MAX = 10
 const NAME_MAX_LENGTH = 200
 const ADDRESS_MAX_LENGTH = 255
 const POSTAL_CODE_MAX_LENGTH = 10

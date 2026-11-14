@@ -707,3 +707,64 @@ button:disabled {
   background: var(--texte-fort);
   color: var(--blanc);
 }
+
+/* Panier : ajout depuis la fiche produit et pastille de l'en-tête */
+.site-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.add-to-cart {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border: 1.5px solid var(--texte-fort);
+  border-radius: 999px;
+}
+
+.quantity-selector button {
+  padding: 8px 14px;
+  background: transparent;
+}
+
+.quantity-selector span {
+  min-width: 24px;
+  color: var(--texte-fort);
+  font-weight: 600;
+  text-align: center;
+}
+
+.add-to-cart [role='status'] {
+  width: 100%;
+}
+
+.cart-link {
+  position: relative;
+  display: inline-flex;
+  color: var(--texte-fort);
+}
+
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--corail-profond);
+  color: var(--blanc);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: center;
+}

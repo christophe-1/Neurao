@@ -2,4 +2,4 @@
 export const ORDER_STATUSES = Object.freeze(['pending', 'paid', 'shipped', 'cancelled'])
 export { productIdSchema, productListQuerySchema } from './schemas/productSchemas.js'
 export { loginSchema, registerSchema } from './schemas/authSchemas.js'
-export { orderSchema } from './schemas/orderSchemas.js'
+export { orderSchema, QUANTITY_MAX } from './schemas/orderSchemas.js'

@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
+import AddToCart from '@/components/AddToCart'
 import ProductImage from '@/components/ProductImage'
 import { fetchProduct } from '@/lib/api'
 import formatPrice from '@/lib/formatPrice'
@@ -50,6 +51,8 @@ export default function ProductPage() {
           ) : (
             <p className="out-of-stock">Bientôt de retour</p>
           )}
+
+          {data.stock > 0 && <AddToCart product={data} />}
 
           <div className="product-description">
             <h2>Description</h2>

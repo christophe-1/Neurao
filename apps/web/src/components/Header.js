@@ -5,12 +5,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { fetchMe, logout } from '@/lib/api'
+import { useCartStore } from '@/lib/cartStore'
 
-/** Site header. Asks /me to show either the login link or the logout button. */
+/** Site header. Asks /me to show either the login link or the logout button, and shows the cart count. */
 export default function Header() {
   const router = useRouter()
   const queryClient = useQueryClient()
   const { data: me, isPending } = useQuery({ queryKey: ['me'], queryFn: fetchMe })
+  const count = useCartStore((state) => state.items.length)
 
   async function handleLogout() {
     await logout()
@@ -66,6 +68,23 @@ export default function Header() {
               Connexion
             </Link>
           )}
+          <Link href="/cart" className="cart-link" aria-label={`Panier : ${count} produit(s)`}>
+            <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8z"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+              />
+              <path
+                d="M9 8V6a3 3 0 0 1 6 0v2"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+              />
+            </svg>
+            {count > 0 && <span className="cart-count">{count}</span>}
+          </Link>
         </div>
       </div>
     </header>
