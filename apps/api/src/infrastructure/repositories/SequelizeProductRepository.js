@@ -27,6 +27,12 @@ export default class SequelizeProductRepository {
     }
   }
 
+  /** Returns every product, active or not, sorted by name (for the back-office). */
+  async findAllForAdmin() {
+    const rows = await ProductModel.findAll({ order: [['name', 'ASC']] })
+    return rows.map((row) => new Product(row))
+  }
+
   /** Returns the product with this id, active or not, or null. */
   async findById(id) {
     const row = await ProductModel.findByPk(id)
@@ -39,5 +45,10 @@ export default class SequelizeProductRepository {
   /** Hides a product from the catalogue (is_active = 0) instead of deleting it. */
   async deactivate(id) {
     await ProductModel.update({ isActive: false }, { where: { id } })
+  }
+
+  /** Shows a product again in the catalogue (is_active = 1). */
+  async activate(id) {
+    await ProductModel.update({ isActive: true }, { where: { id } })
   }
 }
