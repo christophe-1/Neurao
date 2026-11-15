@@ -211,6 +211,8 @@ button:disabled {
 }
 
 .site-nav {
+  display: flex;
+  gap: 24px;
   flex: 1;
   color: var(--texte-fort);
   font-size: 0.875rem;
@@ -849,4 +851,55 @@ button:disabled {
     grid-template-columns: 2fr 1fr;
     align-items: start;
   }
+}
+
+/* Back-office */
+.admin-table {
+  overflow-x: auto;
+  margin-top: 24px;
+  padding: 8px 20px;
+  border-radius: 24px;
+  background: var(--blanc);
+}
+
+.admin-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th {
+  padding: 16px 12px;
+  color: var(--texte);
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.admin-table td {
+  padding: 16px 12px;
+  border-top: 1px solid var(--bordure);
+  color: var(--texte-fort);
+  white-space: nowrap;
+}
+
+.admin-reference {
+  font-weight: 600;
+}
+
+.badge {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.badge-active {
+  background: var(--turquoise-pale);
+  color: var(--turquoise-profond);
+}
+
+.badge-inactive {
+  background: var(--bordure);
+  color: var(--texte-fort);
 }

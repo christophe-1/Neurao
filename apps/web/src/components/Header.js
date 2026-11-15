@@ -29,6 +29,7 @@ export default function Header() {
 
         <nav aria-label="Navigation principale" className="site-nav">
           <Link href="/products">La gamme</Link>
+          {!isPending && me && me.role !== 'customer' && <Link href="/admin">Back-office</Link>}
         </nav>
 
         <form action="/search" className="header-search">
