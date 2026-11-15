@@ -219,8 +219,11 @@ The development mode is slower and shows the Next.js tools; use the production b
 
 Version 2:
 
-- Online payment.
-- Account page and order history.
-- Back-office: create and edit products, follow the orders, a card layout for small screens.
+- Online payment on the hosted page of a payment provider (test mode), and confirmation emails.
+- Order in three steps: addresses (delivery and billing), delivery method, payment and summary.
+- Account page: profile, order history and order status; password reset by email.
+- Cart: kept in the account after login, unavailable lines flagged.
+- Back-office: create and edit products and categories, adjust the stock with a reason, list the orders and change their status, a card layout for small screens.
+- Terms of sale and cookie management pages.
 - Sliding session expiry, and logout from every device.
 - Real hosting with HTTPS.
