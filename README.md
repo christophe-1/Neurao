@@ -6,18 +6,36 @@ Project made for the French professional title _Développeur Web et Web Mobile_ 
 
 ## Features (version 1)
 
-- **Catalogue**: paginated product list, product page with photo, price and description.
+- **Catalogue**: paginated product list, search by name, product page with photo, price and description.
 - **Accounts**: sign-up, login and logout. Passwords are hashed with bcrypt; sessions are stored in Redis and identified by an `httpOnly` cookie.
-- **Protected routes**: `GET /api/auth/me` for logged-in users, and an admin route that deactivates a product (`PATCH /api/products/:id/deactivate`, roles `admin` and `manager`).
-- **Front end**: header that knows if the user is logged in, login and sign-up forms validated with the same Zod schemas as the API, legal notice and privacy policy pages.
+- **Cart**: add, change the quantity (10 at most per product) and remove products. The cart is kept in the browser (`localStorage`), so it survives a page reload.
+- **Order**: delivery address form, then `POST /api/orders` for logged-in users. Prices are read from the database, and the order, its lines and the new stocks are saved in one transaction. The order waits for its payment (online payment is planned for version 2).
+- **Back-office**: page `/admin` for the roles `admin` and `manager`. It lists every product, active or not, and deactivates or reactivates one in a click.
+- **Front end**: header that knows if the user is logged in, forms validated with the same Zod schemas as the API, legal notice and privacy policy pages.
 
-The back-office screens, the cart and the order are planned for version 2 (see [Roadmap](#roadmap)).
+### API routes
+
+| Method and path                      | Access                | Role                                         |
+| ------------------------------------ | --------------------- | -------------------------------------------- |
+| `GET /api/products`                  | public                | one page of the catalogue (category, search) |
+| `GET /api/products/:id`              | public                | one active product                           |
+| `GET /api/categories`                | public                | the categories                               |
+| `POST /api/auth/register`            | public                | creates a `customer` account                 |
+| `POST /api/auth/login`               | public                | opens a session                              |
+| `POST /api/auth/logout`              | public                | closes the session                           |
+| `GET /api/auth/me`                   | logged in             | the current user                             |
+| `POST /api/orders`                   | logged in             | places an order                              |
+| `GET /api/products/admin`            | `admin` and `manager` | every product, active and inactive           |
+| `PATCH /api/products/:id/deactivate` | `admin` and `manager` | hides a product from the catalogue (204)     |
+| `PATCH /api/products/:id/activate`   | `admin` and `manager` | puts a product back in the catalogue (204)   |
+
+Without a session, a protected route answers 401. With a session but without the right role, it answers 403.
 
 ## Tech stack
 
 | Part                            | Technologies                                                |
 | ------------------------------- | ----------------------------------------------------------- |
-| Website (`apps/web`)            | Next.js 16 (App Router), React 19, TanStack Query           |
+| Website (`apps/web`)            | Next.js 16 (App Router), React 19, TanStack Query, Zustand  |
 | API (`apps/api`)                | Node.js, Express 5, Sequelize 6, bcrypt                     |
 | Database                        | MySQL 8.4, in Docker                                        |
 | Sessions                        | Redis 8, in Docker                                          |
@@ -126,6 +144,15 @@ This is a monorepo: one install at the root, one `node_modules` and one `package
 | `npm test -w apps/api` | runs the API tests                         |
 | `npm test -w apps/web` | runs the website tests                     |
 
+### Production build of the website
+
+```bash
+npm run build -w apps/web
+npm run start -w apps/web
+```
+
+The development mode is slower and shows the Next.js tools; use the production build to measure performance (Lighthouse).
+
 ### Database (API)
 
 | Command                                 | Effect                                                  |
@@ -147,9 +174,11 @@ This is a monorepo: one install at the root, one `node_modules` and one `package
 
 ## Tests
 
-- **API**: unit tests of the domain, the use cases and the middlewares (fake repositories), and integration tests of the product routes with Supertest. The integration tests need MySQL to be running.
-- **Website**: React Testing Library in jsdom: product card, sign-up form with a too short password (no request sent), refused login (vague message shown).
-- **Postman**: the collection in `docs/postman/` replays the test data set (catalogue, sign-up, login, 401, 403, 204). See [docs/postman/README.md](docs/postman/README.md) to prepare the test admin account and reset the data before each run.
+43 automated tests, run with Vitest:
+
+- **API (34 tests)**: unit tests of the domain, the use cases (including the order) and the middlewares, with fake repositories; integration tests of the product and order routes with Supertest. The integration tests need MySQL to be running.
+- **Website (9 tests)**: React Testing Library in jsdom: product card, product display helpers, sign-up form with a too short password (no request sent), refused login (vague message shown), cart (quantities added, never more than 10).
+- **Postman**: the collection in `docs/postman/` replays the test data set in 40 requests: catalogue, sign-up, login, protected routes, order and back-office (200, 201, 204, 400, 401, 403, 404, 409). See [docs/postman/README.md](docs/postman/README.md) to prepare the test accounts and reset the data before each run.
 
 ## Environment variables
 
@@ -173,6 +202,8 @@ This is a monorepo: one install at the root, one `node_modules` and one `package
 - Same error message for an unknown email and a wrong password (no account enumeration).
 - Role never taken from the request: every new account is a `customer`.
 - Validation with Zod on the API, even when the website already checked the form.
+- Order prices read from the database, never from the request. The stock row is locked during the order transaction, so two orders cannot sell the same last unit.
+- Back-office protected on the API by `requireAuth` and `requireRole`; hiding the link in the header is only a convenience.
 - Limited MySQL account for the API (no `DELETE`, no `DROP`); products are deactivated instead of deleted.
 - Central error middleware: the client gets a neutral 500, the details stay in the server logs.
 - Dependencies checked with `npm audit`. Two moderate issues remain in `uuid` (used inside Sequelize): the only proposed fix would downgrade Sequelize to version 3, and the affected option is not used by the project.
@@ -188,8 +219,8 @@ This is a monorepo: one install at the root, one `node_modules` and one `package
 
 Version 2:
 
-- Back-office screens: product list, edit and deactivate.
-- Cart and order, with a database transaction that locks the stock.
+- Online payment.
 - Account page and order history.
+- Back-office: create and edit products, follow the orders, a card layout for small screens.
 - Sliding session expiry, and logout from every device.
 - Real hosting with HTTPS.
