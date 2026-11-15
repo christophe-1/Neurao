@@ -1,8 +1,11 @@
 const UNAUTHORIZED = 401
 const NOT_FOUND = 404
 
-export async function fetchProducts(page) {
-  const response = await fetch(`/api/products?page=${page}`)
+/** Fetches one page of the catalogue, filtered by a search text and a category. */
+export async function fetchProducts(page, search, category) {
+  const response = await fetch(
+    `/api/products?page=${page}&search=${encodeURIComponent(search)}&category=${category}`,
+  )
 
   if (!response.ok) {
     throw new Error('Impossible de charger les produits')
@@ -11,6 +14,7 @@ export async function fetchProducts(page) {
   return response.json()
 }
 
+/** Fetches one product, or returns null if the API answers 404. */
 export async function fetchProduct(id) {
   const response = await fetch(`/api/products/${id}`)
 
@@ -25,6 +29,18 @@ export async function fetchProduct(id) {
   return response.json()
 }
 
+/** Fetches the list of categories (Gélules, Gommes, Liquides, Poudres). */
+export async function fetchCategories() {
+  const response = await fetch('/api/categories')
+
+  if (!response.ok) {
+    throw new Error('Impossible de charger les catégories')
+  }
+
+  return response.json()
+}
+
+/** Sends a JSON body with POST and throws an error with the message of the API if it refuses. */
 async function postJson(url, body) {
   const response = await fetch(url, {
     method: 'POST',
@@ -40,14 +56,22 @@ async function postJson(url, body) {
   return data
 }
 
+/** Logs the user in. The API sets the session cookie. */
 export function login(credentials) {
   return postJson('/api/auth/login', credentials)
 }
 
+/** Creates a customer account. */
 export function register(user) {
   return postJson('/api/auth/register', user)
 }
 
+/** Places an order with the products of the cart and the delivery address. */
+export function placeOrder(order) {
+  return postJson('/api/orders', order)
+}
+
+/** Returns the logged-in user (id and role), or null if nobody is logged in. */
 export async function fetchMe() {
   const response = await fetch('/api/auth/me')
 
@@ -62,6 +86,7 @@ export async function fetchMe() {
   return response.json()
 }
 
+/** Logs the user out and deletes the session cookie. */
 export async function logout() {
   await fetch('/api/auth/logout', { method: 'POST' })
 }

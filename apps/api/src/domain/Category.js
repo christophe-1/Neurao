@@ -1,3 +1,4 @@
+/** A product category (gélules, gommes...) shown in the catalogue. */
 export default class Category {
   constructor({ id, name, slug, position }) {
     if (!Number.isInteger(position) || position < 0) {

@@ -4,11 +4,13 @@ import getProduct from '../../application/products/getProduct.js'
 import listProducts from '../../application/products/listProducts.js'
 import { HTTP_STATUS } from '../httpStatus.js'
 
+/** Answers the HTTP requests about products. */
 export default class ProductController {
   constructor(productRepository) {
     this.productRepository = productRepository
   }
 
+  /** Sends one product. Answers 400 for an invalid id and 404 if it is not found. */
   async getOne(req, res) {
     const result = productIdSchema.safeParse(req.params)
     if (!result.success) {
@@ -23,6 +25,9 @@ export default class ProductController {
     return res.status(HTTP_STATUS.OK).json(product)
   }
 
+  /**
+   * Sends one page of the catalogue, filtered by category or search. Answers 400 for invalid parameters.
+   */
   async getAll(req, res) {
     const result = productListQuerySchema.safeParse(req.query)
     if (!result.success) {

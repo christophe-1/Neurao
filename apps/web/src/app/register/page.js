@@ -14,6 +14,7 @@ const FIELD_ERRORS = {
   password: 'Le mot de passe doit contenir entre 15 et 64 caractères',
 }
 
+/** Sign-up form, checked with the same Zod schema as the API before sending. */
 export default function RegisterPage() {
   const router = useRouter()
   const [errors, setErrors] = useState({})
@@ -22,7 +23,13 @@ export default function RegisterPage() {
 
   async function handleSubmit(event) {
     event.preventDefault()
-    const values = Object.fromEntries(new FormData(event.currentTarget))
+    const formData = new FormData(event.currentTarget)
+    const values = {
+      firstName: formData.get('firstName'),
+      lastName: formData.get('lastName'),
+      email: formData.get('email'),
+      password: formData.get('password'),
+    }
     setServerError('')
 
     const result = registerSchema.safeParse(values)
@@ -50,43 +57,45 @@ export default function RegisterPage() {
   }
 
   return (
-    <main>
-      <h1>Créer un compte</h1>
+    <main className="auth-page">
+      <div className="auth-card">
+        <h1>Je crée mon compte</h1>
 
-      <form className="form" onSubmit={handleSubmit} noValidate>
-        <label htmlFor="firstName">Prénom</label>
-        <input id="firstName" name="firstName" autoComplete="given-name" />
-        {errors.firstName && <p className="form-error">{errors.firstName}</p>}
+        <form className="form" onSubmit={handleSubmit} noValidate>
+          <label htmlFor="firstName">Prénom</label>
+          <input id="firstName" name="firstName" autoComplete="given-name" />
+          {errors.firstName && <p className="form-error">{errors.firstName}</p>}
 
-        <label htmlFor="lastName">Nom</label>
-        <input id="lastName" name="lastName" autoComplete="family-name" />
-        {errors.lastName && <p className="form-error">{errors.lastName}</p>}
+          <label htmlFor="lastName">Nom</label>
+          <input id="lastName" name="lastName" autoComplete="family-name" />
+          {errors.lastName && <p className="form-error">{errors.lastName}</p>}
 
-        <label htmlFor="email">Email</label>
-        <input id="email" name="email" type="email" autoComplete="email" />
-        {errors.email && <p className="form-error">{errors.email}</p>}
+          <label htmlFor="email">Email</label>
+          <input id="email" name="email" type="email" autoComplete="email" />
+          {errors.email && <p className="form-error">{errors.email}</p>}
 
-        <label htmlFor="password">Mot de passe</label>
-        <PasswordInput id="password" name="password" autoComplete="new-password" />
-        {errors.password && <p className="form-error">{errors.password}</p>}
+          <label htmlFor="password">Mot de passe</label>
+          <PasswordInput id="password" name="password" autoComplete="new-password" />
+          {errors.password && <p className="form-error">{errors.password}</p>}
 
-        {serverError && (
-          <p className="form-error" role="alert">
-            {serverError}
-          </p>
-        )}
+          {serverError && (
+            <p className="form-error" role="alert">
+              {serverError}
+            </p>
+          )}
 
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Création...' : 'Créer mon compte'}
-        </button>
-      </form>
+          <button type="submit" className="button-dark" disabled={isSubmitting}>
+            {isSubmitting ? 'Création...' : 'Créer mon compte'}
+          </button>
+        </form>
 
-      <p>
-        Déjà un compte ?{' '}
-        <Link href="/login" className="text-link">
-          Se connecter
-        </Link>
-      </p>
+        <p>
+          Déjà un compte ?{' '}
+          <Link href="/login" className="text-link">
+            Se connecter
+          </Link>
+        </p>
+      </div>
     </main>
   )
 }

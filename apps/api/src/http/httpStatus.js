@@ -1,4 +1,4 @@
-export const HTTP_STATUS = Object.freeze({
+export const HTTP_STATUS = {
   OK: 200,
   CREATED: 201,
   NO_CONTENT: 204,
@@ -8,4 +8,4 @@ export const HTTP_STATUS = Object.freeze({
   NOT_FOUND: 404,
   CONFLICT: 409,
   INTERNAL_SERVER_ERROR: 500,
-})
+}

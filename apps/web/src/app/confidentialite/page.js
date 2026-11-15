@@ -2,6 +2,7 @@ export const metadata = {
   title: 'Politique de confidentialité',
 }
 
+/** Privacy policy page (GDPR). */
 export default function PrivacyPage() {
   return (
     <main className="legal">
