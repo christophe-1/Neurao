@@ -121,7 +121,7 @@ export default function CheckoutPage() {
     <main className="auth-page">
       <div className="auth-card">
         <h1>Livraison</h1>
-        <p>
+        <p className="checkout-summary">
           {items.length} produit(s) pour {formatPrice(subtotal)}. La livraison Colissimo est ajoutée
           à la validation.
         </p>

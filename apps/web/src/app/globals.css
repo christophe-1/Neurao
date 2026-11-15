@@ -368,6 +368,7 @@ button:disabled {
   aspect-ratio: 1;
   margin: 0 auto;
   padding-bottom: 12%;
+  overflow: hidden;
   border-radius: 50%;
   background: var(--corail-clair);
 }
@@ -603,6 +604,10 @@ button:disabled {
 .auth-card h1 {
   font-size: 2.25rem;
   font-weight: 600;
+}
+
+.checkout-summary {
+  margin-bottom: 16px;
 }
 
 .form {
