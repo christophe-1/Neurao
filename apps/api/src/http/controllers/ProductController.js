@@ -1,6 +1,8 @@
 import { productIdSchema, productListQuerySchema } from '@neurao/shared'
+import activateProduct from '../../application/products/activateProduct.js'
 import deactivateProduct from '../../application/products/deactivateProduct.js'
 import getProduct from '../../application/products/getProduct.js'
+import listAllProducts from '../../application/products/listAllProducts.js'
 import listProducts from '../../application/products/listProducts.js'
 import { HTTP_STATUS } from '../httpStatus.js'
 
@@ -50,6 +52,31 @@ export default class ProductController {
 
     const deactivated = await deactivateProduct(this.productRepository, result.data.id)
     if (!deactivated) {
+      return res.status(HTTP_STATUS.NOT_FOUND).json({ message: 'Produit introuvable' })
+    }
+
+    return res.status(HTTP_STATUS.NO_CONTENT).end()
+  }
+
+  /** Sends every product, active or not, for the back-office. */
+  async getAllForAdmin(req, res) {
+    const products = await listAllProducts(this.productRepository)
+    return res.status(HTTP_STATUS.OK).json(products)
+  }
+
+  /**
+   * Activates a product. Answers 204, or 404 if the product does not exist.
+   */
+  async activate(req, res) {
+    const result = productIdSchema.safeParse(req.params)
+    if (!result.success) {
+      return res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .json({ message: 'Identifiant de produit invalide' })
+    }
+
+    const activated = await activateProduct(this.productRepository, result.data.id)
+    if (!activated) {
       return res.status(HTTP_STATUS.NOT_FOUND).json({ message: 'Produit introuvable' })
     }
 

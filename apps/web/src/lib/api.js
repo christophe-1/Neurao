@@ -1,5 +1,6 @@
 const UNAUTHORIZED = 401
 const NOT_FOUND = 404
+const FORBIDDEN = 403
 
 /** Fetches one page of the catalogue, filtered by a search text and a category. */
 export async function fetchProducts(page, search, category) {
@@ -38,6 +39,39 @@ export async function fetchCategories() {
   }
 
   return response.json()
+}
+
+/** Fetches every product for the back-office, or returns null if the user is not allowed (401 or 403). */
+export async function fetchAdminProducts() {
+  const response = await fetch('/api/products/admin')
+
+  if (response.status === UNAUTHORIZED || response.status === FORBIDDEN) {
+    return null
+  }
+
+  if (!response.ok) {
+    throw new Error('Impossible de charger les produits')
+  }
+
+  return response.json()
+}
+
+/** Hides a product from the shop (admin or manager only). */
+export async function deactivateProduct(id) {
+  const response = await fetch(`/api/products/${id}/deactivate`, { method: 'PATCH' })
+
+  if (!response.ok) {
+    throw new Error('Impossible de désactiver le produit')
+  }
+}
+
+/** Shows a product again in the shop (admin or manager only). */
+export async function activateProduct(id) {
+  const response = await fetch(`/api/products/${id}/activate`, { method: 'PATCH' })
+
+  if (!response.ok) {
+    throw new Error('Impossible d’activer le produit')
+  }
 }
 
 /** Sends a JSON body with POST and throws an error with the message of the API if it refuses. */

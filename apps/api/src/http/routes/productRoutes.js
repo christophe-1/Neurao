@@ -11,12 +11,24 @@ const sessionRepository = new RedisSessionRepository()
 const router = Router()
 
 router.get('/', (req, res) => controller.getAll(req, res))
+router.get(
+  '/admin',
+  requireAuth(sessionRepository),
+  requireRole(['admin', 'manager']),
+  (req, res) => controller.getAllForAdmin(req, res),
+)
 router.get('/:id', (req, res) => controller.getOne(req, res))
 router.patch(
   '/:id/deactivate',
   requireAuth(sessionRepository),
   requireRole(['admin', 'manager']),
   (req, res) => controller.deactivate(req, res),
+)
+router.patch(
+  '/:id/activate',
+  requireAuth(sessionRepository),
+  requireRole(['admin', 'manager']),
+  (req, res) => controller.activate(req, res),
 )
 
 export default router
