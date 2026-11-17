@@ -10,7 +10,7 @@ export default function PrivacyPage() {
 
       <h2>Responsable du traitement</h2>
       <p>
-        Nutri-Logics est responsable des données collectées sur Neurao. L’adresse de contact pour
+        NL DISTRI SARL est responsable des données collectées sur Neurao. L’adresse de contact pour
         toute question sur vos données sera indiquée ici avant la mise en ligne.
       </p>
 
@@ -46,8 +46,8 @@ export default function PrivacyPage() {
 
       <h2>Destinataires</h2>
       <p>
-        Vos données ne sont accessibles qu’à Nutri-Logics. Elles ne sont ni vendues ni cédées à des
-        tiers.
+        Vos données ne sont accessibles qu’à NL DISTRI SARL. Elles ne sont ni vendues ni cédées à
+        des tiers.
       </p>
 
       <h2>Vos droits</h2>
