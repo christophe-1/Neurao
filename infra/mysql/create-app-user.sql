@@ -1,5 +1,5 @@
 -- Utilisateur MySQL de l'API : seulement les droits dont elle a besoin
--- À exécuter en root dans la console d'IntelliJ
+-- À exécuter en root, par exemple dans : docker compose exec db mysql -uroot -p
 -- Ne jamais écrire le vrai mot de passe dans ce fichier
 
 CREATE USER IF NOT EXISTS 'neurao_app'@'%' IDENTIFIED BY 'MOT_DE_PASSE';

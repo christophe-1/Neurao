@@ -1,6 +1,6 @@
 # Journal de bord
 
-Stage chez Nutri-Logics, du 28 septembre au 20 novembre 2026. Cinq lignes par jour : ce qui a été fait, ce que j'ai appris, ce qui m'a bloqué.
+Stage chez NL DISTRI SARL, du 28 septembre au 20 novembre 2026. Cinq lignes par jour : ce qui a été fait, ce que j'ai appris, ce qui m'a bloqué.
 
 ## Semaine 1
 
@@ -52,7 +52,7 @@ Stage chez Nutri-Logics, du 28 septembre au 20 novembre 2026. Cinq lignes par jo
 
 - **Fait** : nettoyage de la démo Next : police Outfit, `lang="fr"`, titre et description de la page, page d'accueil Neurao, suppression des fichiers de démo. README du projet avec la procédure d'installation. Mise en place de ce journal.
 - **Appris** : `next/font` crée une variable CSS au moment de l'exécution ; IntelliJ la signale comme introuvable alors que le navigateur l'applique bien. Un texte de site de compléments alimentaires est encadré par le règlement européen sur les allégations de santé.
-- **Bloqué** : rien de bloquant. Les textes de la page d'accueil restent à faire valider par Nutri-Logics.
+- **Bloqué** : rien de bloquant. Les textes de la page d'accueil restent à faire valider par l'entreprise.
 
 ### Jeudi 8 octobre 2026
 
