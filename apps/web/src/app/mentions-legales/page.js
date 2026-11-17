@@ -12,7 +12,7 @@ export default function LegalNoticePage() {
 
       <h2>Éditeur du site</h2>
       <p>
-        Le site Neurao est édité par la société Nutri-Logics. Sa forme juridique, son capital, son
+        Le site Neurao est édité par la société NL DISTRI SARL. Sa forme juridique, son capital, son
         adresse, son numéro SIRET et le nom du directeur de la publication seront indiqués ici avant
         la mise en ligne.
       </p>
@@ -31,7 +31,7 @@ export default function LegalNoticePage() {
 
       <h2>Propriété intellectuelle</h2>
       <p>
-        Les textes, logos et visuels du site appartiennent à Nutri-Logics. Toute reproduction sans
+        Les textes, logos et visuels du site appartiennent à NL DISTRI SARL. Toute reproduction sans
         autorisation écrite est interdite.
       </p>
 

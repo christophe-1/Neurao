@@ -2,7 +2,7 @@
 
 E-commerce website for the neuraO range of natural food supplements, built as a monorepo with a Next.js front end and an Express API.
 
-Project made for the French professional title _Développeur Web et Web Mobile_ (DWWM), during an internship at Nutri-Logics.
+Project made for the French professional title _Développeur Web et Web Mobile_ (DWWM), during an internship at NL DISTRI SARL.
 
 ## Features (version 1)
 
@@ -78,12 +78,14 @@ This is a monorepo: one install at the root, one `node_modules` and one `package
 
 ## Installation
 
-1. Clone the repository:
+1. Clone the repository with HTTPS:
 
    ```bash
-   git clone git@github.com:christophe-1/Neurao.git
+   git clone https://github.com/christophe-1/Neurao.git
    cd Neurao
    ```
+
+   If your SSH key is set up on GitHub, you can use `git@github.com:christophe-1/Neurao.git` instead.
 
 2. Create the `.env` file from the template and fill in the passwords (for example with `openssl rand -hex 24`). MySQL only reads them when the database is created for the first time.
 
@@ -117,7 +119,13 @@ This is a monorepo: one install at the root, one `node_modules` and one `package
    npm run db:seed -w apps/api
    ```
 
-7. Create the limited MySQL account used by the API (`SELECT`, `INSERT`, `UPDATE` only): run `infra/mysql/create-app-user.sql` as root, after replacing the password placeholder with the value of `DB_APP_PASSWORD`. Never commit the real password.
+7. Create the limited MySQL account used by the API (`SELECT`, `INSERT`, `UPDATE` only). Open a MySQL console as root, with the value of `DB_ROOT_PASSWORD` when it asks for the password:
+
+   ```bash
+   docker compose exec db mysql -uroot -p
+   ```
+
+   Then paste the content of `infra/mysql/create-app-user.sql`, after replacing `MOT_DE_PASSE` with the value of `DB_APP_PASSWORD`, and type `exit`. Never commit the real password.
 
 8. Start the API and the website, each in its own terminal:
 
