@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="footer-brand">
           <Image src="/images/logo-neurao.svg" alt="" width={64} height={64} />
           <p>
-            Compléments alimentaires pour enfants, inspirés d’un ouvrage de nutrition pédiatrique.
+            Compléments alimentaires pour enfants, imaginés à partir du livre du Dr Julie Jortay.
           </p>
         </div>
 
