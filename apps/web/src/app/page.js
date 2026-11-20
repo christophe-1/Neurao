@@ -11,7 +11,7 @@ export default function Home() {
           <p className="kicker">Compléments alimentaires pour enfants</p>
           <h1>La nutrition, version enfant</h1>
           <p className="lead">
-            Des formules simples, inspirées d’un ouvrage de nutrition pédiatrique, en gélules,
+            Des formules simples, imaginées à partir du livre du Dr Julie Jortay, en gélules,
             gommes et liquides que les enfants prennent volontiers.
           </p>
           <Link href="/products" className="button">
